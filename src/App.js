@@ -1,7 +1,6 @@
-
 function App() {
   return (
-    <div>main</div>
+    <div>empty</div>
   )
 }
 
