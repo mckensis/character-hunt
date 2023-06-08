@@ -1,0 +1,47 @@
+header
+  site name
+  timer if game active
+  characters to find if game active
+  back to game select if game active
+
+homepage
+  HEADER
+  forward to GAME SELECT button
+  LEADERBOARD button
+  rules
+    list of rules
+
+game select
+  list of games
+  back to homepage button
+
+game page
+  HEADER
+  back to GAME SELECT button
+
+leaderboard
+  top section with all levels
+    each level will be a card with level image and name
+    on click: show leaderboard for that level
+  bottom section with selected game leaderboard
+    auto select if coming from game over with a score
+  back to HOMEPAGE button
+
+popup
+  enter name for LEADERBOARD
+  time to complete
+
+firebase
+  LEVEL
+    id
+    name
+    image
+    leaderboard
+    characters
+  CHARACTER
+    id
+    level_id
+    name
+    location
+    found
+    image

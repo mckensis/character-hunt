@@ -1,5 +1,168 @@
+:root {
+  --dark: #363732;
+  --light: #DCE1E9;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+header {
+  z-index: 2;
+  position: sticky;
+  padding: 0.5rem;
+  top: 0;
+  display: flex;
+  max-width: 98vw;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: var(--dark);
+}
+
+header .game-info {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px solid orange;
+  gap: 1rem;
+}
+
+header ul.characters {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+}
+
+main > section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 500px;
+  min-width: 500px;
+  gap: 2rem;
+  width: 100%;
+  flex-grow: 1;
+}
+
+button {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  color: var(--light);
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);  box-shadow: 1px 1px 5px black;
+}
+
+nav button {
+  padding: .5rem;
+  font-size: 1rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.game {
+  position: relative;
+}
+
+.game img {
+  width: 100%;
+}
+
+ul.levels {
+  display: flex;
+  gap: 2rem;
+}
+
+.level-card {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 1rem;
+}
+
+.level-card img {
+  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  pointer-events: none;
+}
+
+.level-card .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  pointer-events: none;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background-color: rgba(200,200,200,0.25);
+}
+
+.level-card .overlay {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.game-popup {
+  list-style: none;
+  position: fixed;
+  background-color: blue;
+  width: 200px;
+  height: 200px;
+}
+
+@media (hover) {
+  * {
+    cursor: default;
+  }
+
+  button,
+  .level-card,
+  .level-card * {
+    cursor: pointer;
+  }
+
+  .level-card:hover .overlay {
+    background-color: rgba(0,0,0,0.1);
+  }
+  .level-card:hover .info {
+    background-color: rgba(0,0,0,0.75);
+  }
 }

@@ -1,6 +1,13 @@
+import Header from "./components/Header";
+import Main from "./components/Main";
+import { DataProvider } from "./context/GameContext";
+
 function App() {
   return (
-    <div>empty</div>
+    <DataProvider>
+      <Header />
+      <Main />
+    </DataProvider>
   )
 }
 
