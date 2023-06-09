@@ -3,7 +3,16 @@ import GameContext from "../context/GameContext";
 
 const Header = () => {
 
-  const {session, setSession} = useContext(GameContext);
+  const {levels, session, setSession} = useContext(GameContext);
+
+  const handleGameOver = () => {
+    const sessionCopy = { ...session };
+    sessionCopy.game.characters.forEach(character => {
+      character.found = false;
+    });
+    console.log(levels);
+    setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home" });
+  }
 
   return (
     <header>
@@ -13,14 +22,18 @@ const Header = () => {
         <section className="game-info">
           <p>Timer</p>
           <ul className="characters">
-            <li>Char 1</li>
-            <li>Char 2</li>
-            <li>Char 3</li>
+            
+            {session?.game?.characters?.map(character => (
+              <li key={character.id} className={character.found ? "found" : null} title={character.title}>
+                <img src={character.url || null} alt=""/>
+              </li>
+            ))}
+
           </ul>
         </section>
 
         <nav>
-          <button onClick={() => setSession({ ...session, game: null, gameOver: true, page: "Home" })}>Quit Game</button>
+          <button onClick={() => handleGameOver()}>Quit Game</button>
         </nav>
       </>}
 

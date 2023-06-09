@@ -1,78 +1,60 @@
 import { useContext, useState } from "react";
 import GameContext from "../context/GameContext";
+import { returnPopupPosition } from "../helpers/returnPopupPosition";
+import { compareCoordinates } from "../helpers/compareCoordinates";
 
 const Game = () => {
 
   const {
-    session
+    session,
+    setSession,
   } = useContext(GameContext);
   
   const [coordinates, setCoordinates] = useState({
-    clickX: null,
-    clickY: null
+    x: null,
+    y: null
   });
+
   const [popupOpen, setPopupOpen] = useState(false);
-  
-  // Position the popup depending on where the user clicks
-  // Avoid positioning the popup where the page would overflow
-  const popupStyle = () => {
 
-    let top;
-    let right;
-    let bottom;
-    let left;
-
-    // Place the popup to the left or right of the mouse click
-    if (coordinates.clickX < window.scrollX + window.innerWidth - 300) {
-      left = coordinates.clickX + 10
-      right = null;
-    } else {
-      left = null;
-      right = window.innerWidth - coordinates.clickX - 10
-    }
-
-    // Place the popup above or below the mouse click
-    if (coordinates.clickY < window.scrollY + window.innerHeight - 250) {
-      top = coordinates.clickY - window.scrollY + 50;
-      bottom = null;
-    } else {
-      top = null;
-      bottom = (window.innerHeight - coordinates.clickY) + window.scrollY - 50;
-    }
-
-    const style = {
-      top: `${top}px`,
-      right: `${right}px`,
-      bottom: `${bottom}px`,
-      left: `${left}px`
-    }
-
-    return style;
+  const checkCoordinatesForMatch = (id, coordinates) => {
+    const sessionCopy = { ...session };
+    const character = sessionCopy.game.characters.find(character => character.id === id);
+    
+    // Compare the character's actual coordinates with where the user has clicked
+    const result = compareCoordinates(coordinates, character);
+    if (result) character.found = true;
+    
+    setSession(sessionCopy);
   }
 
   const handleClick = (e) => {
-
-    // Close the popup if open and the user clicks elsewhere
+    
+    // If there has already been a click to open the popup
     if (popupOpen) {
+      
+      // If a character's name was clicked within the list (to make a guess at the location)
       if (e.target.dataset.id) {
-        console.log(e.currentTarget);
+        const { id } = e.target.dataset;
+        checkCoordinatesForMatch(id, coordinates);
+        setPopupOpen(false);
+        setCoordinates({ ...coordinates, x: null, y: null });
         return;
+
+      // If anywhere else in the image was clicked while the popup is open 
       } else {
+        // Close the popup and reset the coordinates
         setCoordinates({ ...coordinates, x: null, y: null});
         setPopupOpen(false);
         return;
       }
     }
 
-    const clickX = e.clientX - e.currentTarget.getBoundingClientRect().left;
-    const clickY = e.clientY - e.currentTarget.getBoundingClientRect().top;
-
     setCoordinates({ 
       ...coordinates,
-      clickX: clickX, 
-      clickY: clickY,
+      x: e.clientX - e.currentTarget.getBoundingClientRect().left, 
+      y: e.clientY - e.currentTarget.getBoundingClientRect().top
     });
-
     setPopupOpen(true);
   }
 
@@ -81,12 +63,17 @@ const Game = () => {
       <img src={session.game.url} alt=""/>
       
       {popupOpen && 
-        <ul 
-          className="game-popup"
-          data-id="popup"
-          style={popupStyle()}>
-        <li>Test</li>
-      </ul>}
+        <ul className="game-popup" data-id="popup" style={returnPopupPosition(coordinates)}>
+          {session.game.characters.map(character => (
+            !character?.found &&
+              <li key={character.id} data-id={character.id}>
+              {character.title}
+              <img src={character.url || null} alt=""/>
+              </li>
+          ))}
+
+        </ul>}
+
     </section>
   )
 }

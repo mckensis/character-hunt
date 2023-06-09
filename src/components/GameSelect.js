@@ -15,7 +15,12 @@ const GameSelect = () => {
 
     // The ID of the game which was clicked / selected
     const game = levels.find(level => level.id === id);
+    game.characters.forEach(character => {
+      character.found = false;
+    });
+    
     setSession({ ...session, gameOver: false, page: 'Game', game });
+    console.log(session);
   }
 
   return (
