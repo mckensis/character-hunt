@@ -70,6 +70,7 @@ const Game = () => {
               <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
               {character.title}
               <img src={character.url || null} alt=""/>
+              {character.found && <div className="found-overlay">Found!</div>}
               </li>
           ))}
 

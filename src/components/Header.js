@@ -24,7 +24,7 @@ const Header = () => {
           <ul className="characters">
             
             {session?.game?.characters?.map(character => (
-              <li key={character.id} className={character.found ? "found" : null} title={character.title}>
+              <li key={character.id} className={character.found ? "found-icon" : null} title={character.title}>
                 <img src={character.url || null} alt=""/>
               </li>
             ))}

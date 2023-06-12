@@ -1,5 +1,5 @@
 :root {
-  --dark: #363732;
+  --dark: hsl(72, 5%, 21%);
   --light: #DCE1E9;
 }
 
@@ -15,6 +15,7 @@
   min-height: 100vh;
   background-color: var(--dark);
   color: var(--light);
+  min-width: max-content;
 }
 
 header {
@@ -22,12 +23,15 @@ header {
   position: sticky;
   padding: 0.5rem;
   top: 0;
+  left: 0;
+  width: 100vw;
   display: flex;
   height: 4rem;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background-color: var(--dark);
+  background-color: hsla(72, 5%, 21%, 0.55);
+  ;
 }
 
 header .game-info {
@@ -61,6 +65,7 @@ main {
   flex-grow: 1;
   flex-direction: column;
   align-items: center;
+  min-width: fit-content;
 }
 
 main > section:not(main .game) {
@@ -95,10 +100,12 @@ nav button {
 }
 
 .game {
+  min-width: max-content;
   position: relative;
 }
 
-.game img {
+.game > img {
+  min-width: max-content;
   width: 100%;
 }
 
@@ -170,6 +177,7 @@ ul.levels {
 .game-popup li {
   display: flex;
   align-items: center;
+  position: relative;
   justify-content: space-between;
   width: 100%;
   gap: 2rem;
@@ -198,7 +206,27 @@ hr {
 }
 
 .found {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.found-icon {
   opacity: 0.25;
+}
+
+.found-overlay {
+  display: flex;
+  text-align: center;
+  background-color: red;
+  padding: 0.25rem;
+  align-items: center;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--light);
+  pointer-events: none;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
 }
 
 .crosshair {
