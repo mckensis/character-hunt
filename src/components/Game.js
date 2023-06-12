@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import GameContext from "../context/GameContext";
-import { returnPopupPosition } from "../helpers/returnPopupPosition";
+import { returnPopupPosition, returnTargetPosition } from "../helpers/returnPopupPosition";
 import { compareCoordinates } from "../helpers/compareCoordinates";
 
 const Game = () => {
@@ -16,6 +16,7 @@ const Game = () => {
   });
 
   const [popupOpen, setPopupOpen] = useState(false);
+  const [crosshairVisible, setCrosshairVisible] = useState(false);
 
   const checkCoordinatesForMatch = (id, coordinates) => {
     const sessionCopy = { ...session };
@@ -29,7 +30,6 @@ const Game = () => {
   }
 
   const handleClick = (e) => {
-    
     // If there has already been a click to open the popup
     if (popupOpen) {
       
@@ -46,6 +46,7 @@ const Game = () => {
         // Close the popup and reset the coordinates
         setCoordinates({ ...coordinates, x: null, y: null});
         setPopupOpen(false);
+        setCrosshairVisible(false);
         return;
       }
     }
@@ -56,6 +57,7 @@ const Game = () => {
       y: e.clientY - e.currentTarget.getBoundingClientRect().top
     });
     setPopupOpen(true);
+    setCrosshairVisible(true);
   }
 
   return (
@@ -65,14 +67,17 @@ const Game = () => {
       {popupOpen && 
         <ul className="game-popup" data-id="popup" style={returnPopupPosition(coordinates)}>
           {session.game.characters.map(character => (
-            !character?.found &&
-              <li key={character.id} data-id={character.id}>
+              <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
               {character.title}
               <img src={character.url || null} alt=""/>
               </li>
           ))}
 
         </ul>}
+
+        {crosshairVisible && 
+          <div className="crosshair" style={returnTargetPosition(coordinates)}></div>
+        }
 
     </section>
   )

@@ -23,7 +23,6 @@ header {
   padding: 0.5rem;
   top: 0;
   display: flex;
-  max-width: 98vw;
   height: 4rem;
   align-items: center;
   justify-content: space-between;
@@ -160,7 +159,7 @@ ul.levels {
   justify-content: center;
   border-radius: 2rem;
   font-size: 1.3rem;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0,0,0,0.95);
   list-style: none;
   position: fixed;
   min-width: 250px;
@@ -199,8 +198,18 @@ hr {
 }
 
 .found {
-  opacity: 0.5;
-  text-decoration: line-through;
+  opacity: 0.25;
+}
+
+.crosshair {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  background: url("./images/crosshair.svg"), linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+  background-position: center;
+  pointer-events: none;
+  border-radius: 50%;
+  background-repeat: no-repeat;
 }
 
 @media (hover) {
@@ -208,11 +217,25 @@ hr {
     cursor: default;
   }
 
+  .game-popup img {
+    pointer-events: none;
+  }
+
+  ::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+
   button,
   .level-card,
   .level-card *,
-  .game-popup * {
+  .game-popup,
+  .game-popup *:not(.game-popup .found) {
     cursor: pointer;
+  }
+
+  .game > img:hover {
+    cursor: url("./images/crosshair.svg") 25 25, auto;
   }
 
   .level-card:hover .overlay {
@@ -222,7 +245,7 @@ hr {
     background-color: rgba(0,0,0,0.75);
   }
 
-  .game-popup li:hover {
+  .game-popup li:hover:not(li.found) {
     background-color: rgba(10,10,10,0.75);
     color: orange;
   }
