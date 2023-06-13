@@ -8,6 +8,7 @@ import Form from "./Form";
 const Game = () => {
 
   const {
+    setSeconds,
     session,
     setSession,
     setTimerActive,
@@ -95,6 +96,7 @@ const Game = () => {
     const handleStartGame = async () => {
       await handleSetFirestoreStartData(session.firestoreId);
       setTimerActive(true);
+      setSeconds(0);
     }
 
     handleStartGame();

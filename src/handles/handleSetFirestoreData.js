@@ -38,11 +38,12 @@ export const handleSetFirestoreFinishData = async (id) => {
   }
 }
 
-export const handleSetFirestoreUsername = async (id, user) => {
+export const handleSetFirestoreUserData = async (id, user, seconds) => {
   try {
     const ref = doc(firestore, "leaderboards", id);
     await updateDoc(ref, {
-      user
+      user,
+      seconds
     });
   } catch (err) {
     console.log(err.message);

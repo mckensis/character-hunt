@@ -2,7 +2,7 @@ import { useContext } from "react";
 import GameContext from "../context/GameContext";
 import { useForm } from "react-hook-form";
 import { checkInputForProfanity } from "../helpers/checkInputForProfanity";
-import { handleSetFirestoreUsername } from "../handles/handleSetFirestoreData";
+import { handleSetFirestoreUserData } from "../handles/handleSetFirestoreData";
 
 const Form = () => {
   
@@ -10,6 +10,7 @@ const Form = () => {
     session,
     setSession,
     seconds,
+    setSeconds,
     formatSeconds,
   } = useContext(GameContext);
 
@@ -28,8 +29,10 @@ const Form = () => {
       return;
     }
 
-    handleSetFirestoreUsername(session.firestoreId, user);
+    document.body.style.overflow = "scroll";
+    handleSetFirestoreUserData(session.firestoreId, user, seconds);
     setSession({ ...session, gameOver: true, page: "Leaderboard" });
+    setSeconds(0);
   }
 
   return (
@@ -52,6 +55,8 @@ const Form = () => {
       {errors.user?.type === "maxLength" && <p role="alert">Maximum length is 20 characters.</p>}
       {errors.user?.type === "profanity" && <p role="alert">Please remove the profanity.</p>}
       
+      <p>Click the button below to submit your score & view the leaderboards!</p>
+
       <button>Submit</button>
     </form>
   )

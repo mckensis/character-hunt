@@ -8,6 +8,7 @@ const Header = () => {
     levels,
     session,
     setSession,
+    setSeconds,
   } = useContext(GameContext);
 
   const handleGameOver = () => {
@@ -16,6 +17,7 @@ const Header = () => {
       character.found = false;
     });
     console.log(levels);
+    setSeconds(0);
     setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home" });
   }
 
