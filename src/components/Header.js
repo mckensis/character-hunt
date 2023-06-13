@@ -1,9 +1,14 @@
 import { useContext } from "react";
 import GameContext from "../context/GameContext";
+import Timer from "./Timer";
 
 const Header = () => {
 
-  const {levels, session, setSession} = useContext(GameContext);
+  const {
+    levels,
+    session,
+    setSession,
+  } = useContext(GameContext);
 
   const handleGameOver = () => {
     const sessionCopy = { ...session };
@@ -16,11 +21,11 @@ const Header = () => {
 
   return (
     <header>
-      <h1>Character Hunt</h1>
+      {session.page !== "Game" && <h1>Character Hunt</h1>}
 
       {!session.gameOver && <>
         <section className="game-info">
-          <p>Timer</p>
+          <Timer />
           <ul className="characters">
             
             {session?.game?.characters?.map(character => (

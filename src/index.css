@@ -16,6 +16,7 @@
   background-color: var(--dark);
   color: var(--light);
   min-width: max-content;
+  font-family: sans-serif;
 }
 
 header {
@@ -30,7 +31,7 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background-color: hsla(72, 5%, 21%, 0.55);
+  background-color: hsla(72, 5%, 21%, 0.75);
   ;
 }
 
@@ -86,7 +87,8 @@ button {
   border: none;
   border-radius: 1rem;
   color: var(--light);
-  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);  box-shadow: 1px 1px 5px black;
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  box-shadow: 1px 1px 5px black;
 }
 
 nav button {
@@ -240,6 +242,73 @@ hr {
   background-repeat: no-repeat;
 }
 
+.credits {
+  position: absolute;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  border: 1px solid var(--dark);
+  background-color: rgba(0,0,0,0.5);
+  bottom: 0;
+  right: 0;
+}
+
+.credits a {
+  cursor: pointer;
+  text-decoration: none;
+  color: orange;
+}
+
+.game form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: rgba(0,0,0,0.95);
+  box-shadow: 1px 1px 10px 3px black;
+  border: 1px solid var(--dark);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+label {
+  position: absolute;
+  color: transparent;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+}
+
+form p:nth-of-type(1) {
+  margin: 0.75rem;
+}
+
+form button {
+  margin-top: 0.75rem;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+input:invalid {
+  border: 2px solid blue;
+}
+
+p[role="alert"] {
+  width: 100%;
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
 @media (hover) {
   * {
     cursor: default;
@@ -260,6 +329,10 @@ hr {
   .game-popup,
   .game-popup *:not(.game-popup .found) {
     cursor: pointer;
+  }
+
+  input {
+    cursor: text;
   }
 
   .game > img:hover {

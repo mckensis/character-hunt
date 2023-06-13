@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import GameContext from "../context/GameContext";
 import LevelCard from "./LevelCard";
+import { handleSetFirestoreData } from "../handles/handleSetFirestoreData";
 
 const GameSelect = () => {
 
   const { 
     session,
     setSession,
-    levels
+    levels,
   } = useContext(GameContext);
 
-  const handleStartGame = (id) => {
+  const handleStartGame = async (id) => {
     if (!id) return;
 
     // The ID of the game which was clicked / selected
@@ -18,9 +19,9 @@ const GameSelect = () => {
     game.characters.forEach(character => {
       character.found = false;
     });
-    
-    setSession({ ...session, gameOver: false, page: 'Game', game });
-    console.log(session);
+
+    const firestoreId = await handleSetFirestoreData(id);
+    setSession({ ...session, gameOver: false, page: 'Game', game, firestoreId });
   }
 
   return (

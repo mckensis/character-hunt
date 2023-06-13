@@ -1,13 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GameContext from "../context/GameContext";
 import { returnPopupPosition, returnTargetPosition } from "../helpers/returnPopupPosition";
 import { compareCoordinates } from "../helpers/compareCoordinates";
+import { handleSetFirestoreFinishData, handleSetFirestoreStartData } from "../handles/handleSetFirestoreData";
+import Form from "./Form";
 
 const Game = () => {
 
   const {
     session,
     setSession,
+    setTimerActive,
   } = useContext(GameContext);
   
   const [coordinates, setCoordinates] = useState({
@@ -15,6 +18,7 @@ const Game = () => {
     y: null
   });
 
+  const [gameOver, setGameOver] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [crosshairVisible, setCrosshairVisible] = useState(false);
 
@@ -24,41 +28,78 @@ const Game = () => {
     
     // Compare the character's actual coordinates with where the user has clicked
     const result = compareCoordinates(coordinates, character);
-    if (result) character.found = true;
+    if (!result) return;
     
+    character.found = true;
     setSession(sessionCopy);
   }
 
+  const handleOpenPopup = () => {
+    document.body.style.overflow = "hidden";
+    setPopupOpen(true);
+    setCrosshairVisible(true);
+  }
+
+  const handleClosePopup = () => {
+    document.body.style.overflow = "scroll";
+    setPopupOpen(false);
+    setCrosshairVisible(false);
+    setCoordinates({ x: null, y: null });
+  }
+
   const handleClick = (e) => {
+    if (gameOver) return;
+    
+    console.log("X: ", e.clientX - e.currentTarget.getBoundingClientRect().left, "Y: ", e.clientY - e.currentTarget.getBoundingClientRect().top);
+
     // If there has already been a click to open the popup
     if (popupOpen) {
-      
       // If a character's name was clicked within the list (to make a guess at the location)
       if (e.target.dataset.id) {
         const { id } = e.target.dataset;
         checkCoordinatesForMatch(id, coordinates);
-        setPopupOpen(false);
-        setCoordinates({ ...coordinates, x: null, y: null });
-        return;
-
-      // If anywhere else in the image was clicked while the popup is open 
-      } else {
-        // Close the popup and reset the coordinates
-        setCoordinates({ ...coordinates, x: null, y: null});
-        setPopupOpen(false);
-        setCrosshairVisible(false);
-        return;
       }
+
+      handleClosePopup();
+      return;
     }
 
     setCoordinates({ 
-      ...coordinates,
       x: e.clientX - e.currentTarget.getBoundingClientRect().left, 
       y: e.clientY - e.currentTarget.getBoundingClientRect().top
     });
-    setPopupOpen(true);
-    setCrosshairVisible(true);
+    handleOpenPopup();
   }
+
+  // Watch for game over criteria
+  useEffect(() => {
+    // Return if all characters haven't been found yet
+    const allCharactersFound = session.game.characters.every(character => character.found === true);
+    if (!allCharactersFound) return;
+
+    const handleGameOver = () => {
+      setGameOver(true);
+      setTimerActive(false);
+      handleSetFirestoreFinishData(session.firestoreId);
+      document.body.style.overflow = "hidden";
+    }
+    
+    handleGameOver();
+  
+  }, [session, setTimerActive]);
+
+  // Set the start timer when the component mounts
+  useEffect(() => {
+    if (gameOver) return;
+
+    const handleStartGame = async () => {
+      await handleSetFirestoreStartData(session.firestoreId);
+      setTimerActive(true);
+    }
+
+    handleStartGame();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <section className="game" onClick={handleClick}>
@@ -69,7 +110,7 @@ const Game = () => {
           {session.game.characters.map(character => (
               <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
               {character.title}
-              <img src={character.url || null} alt=""/>
+              <img src={character.url || null} alt="" className={character.found ? "found-icon" : null}/>
               {character.found && <div className="found-overlay">Found!</div>}
               </li>
           ))}
@@ -78,6 +119,11 @@ const Game = () => {
 
         {crosshairVisible && 
           <div className="crosshair" style={returnTargetPosition(coordinates)}></div>
+        }
+        <p className="credits">Image Credit: <a href="https://www.instagram.com/chekavo/">Egor Klyuchnyk</a></p>
+        
+        {gameOver &&
+          <Form />
         }
 
     </section>
