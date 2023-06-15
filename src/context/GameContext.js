@@ -14,16 +14,15 @@ export const DataProvider = ({ children }) => {
 
   const [levels, setLevels] = useState(null);
   const [timerActive, setTimerActive] = useState(false);
+  const [time, setTime] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  const formatSeconds = (seconds) => {
-    const pad = (n) => n < 10 ? `0${n}` : n;
+  const formatTimer = (time) => {
+    const min = ("0" + Math.floor((time / 60000) % 60)).slice(-2);
+    const sec = ("0" + Math.floor((time / 1000) % 60)).slice(-2);
+    const millisec = ("0" + ((time / 10) % 100)).slice(-2);
 
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor(seconds / 60) - (h * 60);
-    const s = Math.floor(seconds - h * 3600 - m * 60);
-
-    return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    return `${min}:${sec}.${millisec}`;
   }
 
   // Run on page load to retrieve available levels from firestore 
@@ -43,7 +42,8 @@ export const DataProvider = ({ children }) => {
     <GameContext.Provider value={{
       session, setSession, levels,
       timerActive, setTimerActive,
-      seconds, setSeconds, formatSeconds,
+      time, setTime,
+      seconds, setSeconds, formatTimer,
     }}>
       {children}
     </GameContext.Provider>

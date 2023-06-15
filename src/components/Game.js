@@ -8,7 +8,7 @@ import Form from "./Form";
 const Game = () => {
 
   const {
-    setSeconds,
+    setTime,
     session,
     setSession,
     setTimerActive,
@@ -91,12 +91,12 @@ const Game = () => {
 
   // Set the start timer when the component mounts
   useEffect(() => {
-    if (gameOver) return;
+    if (gameOver || session.gameOver) return;
 
     const handleStartGame = async () => {
       await handleSetFirestoreStartData(session.firestoreId);
+      setTime(0);
       setTimerActive(true);
-      setSeconds(0);
     }
 
     handleStartGame();
@@ -106,29 +106,45 @@ const Game = () => {
   return (
     <section className="game" onClick={handleClick}>
       <img src={session.game.url} alt=""/>
-      
-      {popupOpen && 
-        <ul className="game-popup" data-id="popup" style={returnPopupPosition(coordinates)}>
-          {session.game.characters.map(character => (
-              <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
-              {character.title}
-              <img src={character.url || null} alt="" className={character.found ? "found-icon" : null}/>
-              {character.found && <div className="found-overlay">Found!</div>}
-              </li>
-          ))}
 
-        </ul>}
+      {crosshairVisible && 
+        <div className="crosshair" style={returnTargetPosition(coordinates)}></div>
+      }
 
-        {crosshairVisible && 
-          <div className="crosshair" style={returnTargetPosition(coordinates)}></div>
-        }
-        <p className="credits">Image Credit: <a href="https://www.instagram.com/chekavo/">Egor Klyuchnyk</a></p>
-        
-        {gameOver &&
-          <Form />
-        }
-
+      <ImageCredit />
+      {popupOpen && <Popup coordinates={coordinates} />}        
+      {gameOver && <Form />}
     </section>
+  )
+}
+
+const ImageCredit = () => {
+  return (
+    <p className="credits">
+      Image Credit:
+      <a href="https://www.instagram.com/chekavo/">
+        Egor Klyuchnyk
+      </a>
+    </p>
+  )
+}
+
+const Popup = ({ coordinates }) => {
+  const {
+    session
+  } = useContext(GameContext);
+
+  return (
+    <ul className="game-popup" data-id="popup" style={returnPopupPosition(coordinates)}>
+    {session.game.characters.map(character => (
+        <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
+        {character.title}
+        <img src={character.url || null} alt="" className={character.found ? "found-icon" : null}/>
+        {character.found && <div className="found-overlay">Found!</div>}
+        </li>
+    ))}
+
+  </ul>
   )
 }
 

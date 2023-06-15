@@ -1,5 +1,5 @@
 import { firestore, storage } from "../firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 
 export const handleGetFirestoreLevelData = async () => {
@@ -26,12 +26,10 @@ export const handleGetFirestoreLevelData = async () => {
         character.found = false;
       }
     }
-
     return levels;
-
   } catch (err) {
     console.log(err.message);
-    return err;
+    return err.message;
   }
 }
 
@@ -65,6 +63,7 @@ export const handleDownloadImageFromStorage = async (url) => {
 
   } catch (err) {
     console.log(err.message);
+    return err;
   }
 }
 
@@ -80,6 +79,34 @@ export const handleGetFirestoreTimes = async (id) => {
 
   } catch (err) {
     console.log(err.message);
-    return err;
+    return err.message;
+  }
+}
+
+export const handleGetLeaderboardData = async (id) => {
+  try {
+    if (!id) throw new Error("No ID Provided.");
+
+    const leaderboard = [];
+
+    const ref = collection(firestore, "leaderboards");
+    const q = query(ref, where("level", "==", id), orderBy("seconds", "desc"));
+
+    const response = await getDocs(q);
+
+    response.docs.forEach(doc => {
+      leaderboard.push({ ...doc.data(), id: doc.id });
+    });
+
+    console.log(leaderboard);
+
+    // Only return leaderboard data which has user and seconds properties
+    const filtered = [ ...leaderboard.filter(doc => doc.user && doc.seconds) ];
+
+    return filtered;
+
+  } catch (err) {
+    console.log(err.message);
+    return err.message;
   }
 }

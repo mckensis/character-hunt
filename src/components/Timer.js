@@ -4,24 +4,27 @@ import GameContext from "../context/GameContext";
 const Timer = () => {
   
   const {
-    seconds,
-    setSeconds,
-    formatSeconds,
+    time,
+    setTime,
+    formatTimer,
     timerActive,
   } = useContext(GameContext);
 
   useEffect(() => {
+    let interval;
     if (timerActive) {
-      const interval = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-      }, 1000);
-
-      return () => clearInterval(interval);
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
+    } else if (!timerActive) {
+      clearInterval(interval);
     }
-  }, [timerActive, setSeconds]);
-  
+
+    return () => clearInterval(interval);
+  }, [timerActive, setTime]);
+
   return (
-    <h2>{formatSeconds(seconds)}</h2>
+    <h2>{formatTimer(time)}</h2>
   )
 }
 

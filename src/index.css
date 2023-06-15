@@ -29,21 +29,20 @@ header {
   display: flex;
   height: 4rem;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   background-color: hsla(72, 5%, 21%, 0.75);
-  ;
 }
 
 header .game-info {
   flex-grow: 1;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   gap: 1rem;
   align-items: center;
 }
 
 ul.characters {
+  justify-content: center;
   list-style: none;
   display: flex;
   gap: 0.5rem;
@@ -91,8 +90,8 @@ button {
   box-shadow: 1px 1px 5px black;
 }
 
-nav button {
-  padding: .5rem;
+header button {
+  padding: .5rem .75rem;
   font-size: 1rem;
 }
 
@@ -309,6 +308,50 @@ p[role="alert"] {
   text-align: right;
   font-size: 0.9rem;
   color: orange;
+}
+
+table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  width: 100%;
+  max-width: 600px;
+}
+
+th {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  flex-basis: 50%;
+}
+
+th:nth-of-type(1) {
+  text-align: left;
+}
+
+th:nth-of-type(2) {
+  text-align: right;
+}
+
+tr {
+  padding: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
+  justify-content: space-between;
+  border: 1px solid orange;
+}
+
+td.loading, td.empty {
+  flex-basis: 100%;
+  text-align: center;
+  padding: 1rem;
+}
+
+tr > td:not(tr > td:nth-of-type(1)) {
+  flex-grow: 1;
+}
+
+tr > td:nth-of-type(3) {
+  text-align: right;
 }
 
 @media (hover) {

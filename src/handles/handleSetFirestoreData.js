@@ -1,12 +1,13 @@
 import { firestore } from "../firebase";
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { checkIfTwoTimesAreSimilar } from "../helpers/checkIfTwoTimesAreSimilar";
+import { getDifferenceBetweenTwoTimes } from "../helpers/getDifferenceBetweenTwoTimes";
 
 export const handleSetFirestoreData = async (levelId) => {
   try {
     const ref = collection(firestore, "leaderboards");
     const response = await addDoc(ref, {
       level: levelId,
-      user: null,
     });
     const { id } = response;
     return id;
@@ -38,12 +39,26 @@ export const handleSetFirestoreFinishData = async (id) => {
   }
 }
 
-export const handleSetFirestoreUserData = async (id, user, seconds) => {
+export const handleSetFirestoreUserData = async (id, user, time) => {
   try {
     const ref = doc(firestore, "leaderboards", id);
+    let score;
+    
+    // Get the user's data from firestore
+    const response = await getDoc(ref);
+    // Get the total time elapsed according to the server timestamps
+    const serverTimeElapsed = getDifferenceBetweenTwoTimes(response);
+    
+    // Compare the server time elapsed with the user's time
+    if (checkIfTwoTimesAreSimilar(serverTimeElapsed, time)) {
+      score = time;
+    } else {
+      score = serverTimeElapsed;
+    }
+
     await updateDoc(ref, {
       user,
-      seconds
+      score,
     });
   } catch (err) {
     console.log(err.message);

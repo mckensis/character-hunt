@@ -9,9 +9,9 @@ const Form = () => {
   const {
     session,
     setSession,
-    seconds,
-    setSeconds,
-    formatSeconds,
+    time,
+    setTime,
+    formatTimer,
   } = useContext(GameContext);
 
   const {
@@ -30,15 +30,16 @@ const Form = () => {
     }
 
     document.body.style.overflow = "scroll";
-    handleSetFirestoreUserData(session.firestoreId, user, seconds);
+    handleSetFirestoreUserData(session.firestoreId, user, time);
     setSession({ ...session, gameOver: true, page: "Leaderboard" });
-    setSeconds(0);
+    setTime(0);
   }
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <h2>Well Done!</h2>
-      <p>Your time is <span>{formatSeconds(seconds)}</span></p>
+      <p>Your time is <span>{formatTimer(time)}</span></p>
+      <p>time unformatted {time}</p>
       <label htmlFor="name">Enter your name below:</label>
       <input 
         type="text"

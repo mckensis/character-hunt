@@ -5,46 +5,53 @@ import Timer from "./Timer";
 const Header = () => {
 
   const {
-    levels,
     session,
     setSession,
     setSeconds,
   } = useContext(GameContext);
 
-  const handleGameOver = () => {
+  const handleQuitGame = () => {
     const sessionCopy = { ...session };
     sessionCopy.game.characters.forEach(character => {
       character.found = false;
     });
-    console.log(levels);
     setSeconds(0);
     setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home" });
   }
 
   return (
     <header>
-      {session.page !== "Game" && <h1>Character Hunt</h1>}
-
-      {!session.gameOver && <>
+      
+      {session.page === "Game" &&
         <section className="game-info">
           <Timer />
-          <ul className="characters">
-            
-            {session?.game?.characters?.map(character => (
-              <li key={character.id} className={character.found ? "found-icon" : null} title={character.title}>
-                <img src={character.url || null} alt=""/>
-              </li>
-            ))}
-
-          </ul>
+          <CharacterList />
+          <button onClick={() => handleQuitGame()}>Quit</button>
         </section>
-
-        <nav>
-          <button onClick={() => handleGameOver()}>Quit Game</button>
-        </nav>
-      </>}
+      }
+      
+      {session.page !== "Game" &&
+        <h1>Character Hunt</h1>
+      }
 
     </header>
+  )
+}
+
+const CharacterList = () => {
+  
+  const {
+    session,
+  } = useContext(GameContext);
+
+  return (
+    <ul className="characters">            
+      {session?.game?.characters?.map(character => (
+        <li key={character.id} className={character.found ? "found-icon" : null} title={character.title}>
+          <img src={character.url || null} alt=""/>
+        </li>
+      ))}
+    </ul>
   )
 }
 
