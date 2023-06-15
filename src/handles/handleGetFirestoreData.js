@@ -90,7 +90,7 @@ export const handleGetLeaderboardData = async (id) => {
     const leaderboard = [];
 
     const ref = collection(firestore, "leaderboards");
-    const q = query(ref, where("level", "==", id), orderBy("seconds", "desc"));
+    const q = query(ref, where("level", "==", id), orderBy("score", "asc"));
 
     const response = await getDocs(q);
 
@@ -98,10 +98,8 @@ export const handleGetLeaderboardData = async (id) => {
       leaderboard.push({ ...doc.data(), id: doc.id });
     });
 
-    console.log(leaderboard);
-
     // Only return leaderboard data which has user and seconds properties
-    const filtered = [ ...leaderboard.filter(doc => doc.user && doc.seconds) ];
+    const filtered = [ ...leaderboard.filter(doc => doc.user && doc.score) ];
 
     return filtered;
 

@@ -12,8 +12,6 @@ const GameSelect = () => {
 
   return (
     <section className="game-select">
-      <h2>Game Select</h2>
-
       <section className="buttons">
         <button onClick={() => setSession({ ...session, page: "Home" })}>Back to Home</button>
       </section>

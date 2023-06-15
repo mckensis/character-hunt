@@ -7,8 +7,6 @@ const Home = () => {
 
   return (
     <section className="home">
-      <h2>Welcome to Character Hunt!</h2>
-
       <section className="buttons">
         <button onClick={() => setSession({ ...session, page: "Select" })}>Game Select</button>
         <button onClick={() => setSession({ ...session, page: "Leaderboard" })}>View Leaderboards</button>

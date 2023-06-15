@@ -15,7 +15,7 @@
   min-height: 100vh;
   background-color: var(--dark);
   color: var(--light);
-  min-width: max-content;
+  width: fit-content;
   font-family: sans-serif;
 }
 
@@ -31,6 +31,11 @@ header {
   align-items: center;
   gap: 1rem;
   background-color: hsla(72, 5%, 21%, 0.75);
+}
+
+h1 {
+  flex-grow: 1;
+  text-align: center;
 }
 
 header .game-info {
@@ -65,15 +70,14 @@ main {
   flex-grow: 1;
   flex-direction: column;
   align-items: center;
-  min-width: fit-content;
+  width: fit-content;
+  min-width: 100vw;
 }
 
 main > section:not(main .game) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 500px;
-  min-width: 500px;
   gap: 2rem;
   width: 100%;
   flex-grow: 1;
@@ -114,6 +118,7 @@ ul.levels {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+  justify-content: center;
 }
 
 .level-card {
@@ -262,18 +267,37 @@ hr {
 
 .game form {
   position: fixed;
+  font-size: .9rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   top: 50%;
   left: 50%;
+  width: 85vw;
+  max-width: 500px;
   padding: 2rem;
   border-radius: 1rem;
   background-color: rgba(0,0,0,0.95);
   box-shadow: 1px 1px 10px 3px black;
   border: 1px solid var(--dark);
   transform: translateX(-50%) translateY(-50%);
+}
+
+.game form h2 {
+  color: orange;
+  margin: 0.25rem;
+  font-size: 2rem;
+}
+
+.game form h3 {
+  margin: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.game form span {
+  color: orange;
+  font-weight: 700;
 }
 
 label {
@@ -285,11 +309,13 @@ label {
 }
 
 form p:not(p[role="alert"]) {
-  margin: 0.75rem;
+  width: 100%;
+  text-align: center;
+  margin: 1rem;
 }
 
 form button {
-  margin-top: 0.75rem;
+  margin-top: 2rem;
 }
 
 input {
@@ -319,13 +345,10 @@ table {
 }
 
 th {
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  flex-basis: 50%;
-}
-
-th:nth-of-type(1) {
   text-align: left;
+  font-size: 1.2rem;
+  padding: 0.25rem;
+  flex-basis: 50%;
 }
 
 th:nth-of-type(2) {
@@ -333,11 +356,15 @@ th:nth-of-type(2) {
 }
 
 tr {
-  padding: 0.25rem;
   display: flex;
   gap: 0.25rem;
+  padding: 0.25rem;
   justify-content: space-between;
   border: 1px solid orange;
+}
+
+td {
+  padding: 0.25rem;
 }
 
 td.loading, td.empty {
@@ -346,11 +373,11 @@ td.loading, td.empty {
   padding: 1rem;
 }
 
-tr > td:not(tr > td:nth-of-type(1)) {
+td:not(td:nth-of-type(1)) {
   flex-grow: 1;
 }
 
-tr > td:nth-of-type(3) {
+td:nth-of-type(3) {
   text-align: right;
 }
 

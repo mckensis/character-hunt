@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import GameContext from "../context/GameContext";
 import LevelCard from "./LevelCard";
 import { handleGetLeaderboardData } from "../handles/handleGetFirestoreData";
+import { formatTime } from "../helpers/formatTime";
 
 const Leaderboard = () => {
 
@@ -16,13 +17,16 @@ const Leaderboard = () => {
 
   const handleSetActiveLeaderboard = async (event) => {
     try {
-      console.log(event);
       setLoading(true);
-      const {id } = event.target.dataset;
-      if (!id) return;  
+
+      const { id } = event.target.dataset;
+      if (!id) return;
+
       const data = await handleGetLeaderboardData(id);
       if (data) setLoading(false);
+
       setLeaderboard(data);
+    
     } catch (err) {
       console.log(err.message);
     }
@@ -30,18 +34,16 @@ const Leaderboard = () => {
   }
 
   return (
-    <section className="leaderboard">
-      <h2>Leaderboards</h2>
-      
+    <section className="leaderboard">      
       <section className="buttons">
         <button onClick={() => setSession({ ...session, page: "Home" })}>Back to Home</button>
       </section>
+      <h3>Select a level to view the leaderboard:</h3>
 
       <ul className="levels" onClick={(e) => handleSetActiveLeaderboard(e)}>
         {levels.map(level => <LevelCard key={level.id} level={level} />)}
       </ul>
 
-      {!leaderboard && <h3>Select a level to view the leaderboard:</h3>}
       
       {leaderboard &&
       <>
@@ -50,7 +52,7 @@ const Leaderboard = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Time (seconds)</th>
+            <th>Time</th>
           </tr>
         </thead>
         <tbody>
@@ -66,7 +68,7 @@ const Leaderboard = () => {
           <tr key={data.id}>
             <td>{leaderboard.indexOf(data) + 1}</td>
             <td>{data.user}</td>
-            <td>{data.seconds}</td>
+            <td>{formatTime(data.score)}</td>
           </tr>
           ))
         }

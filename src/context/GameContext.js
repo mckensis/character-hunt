@@ -17,14 +17,6 @@ export const DataProvider = ({ children }) => {
   const [time, setTime] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  const formatTimer = (time) => {
-    const min = ("0" + Math.floor((time / 60000) % 60)).slice(-2);
-    const sec = ("0" + Math.floor((time / 1000) % 60)).slice(-2);
-    const millisec = ("0" + ((time / 10) % 100)).slice(-2);
-
-    return `${min}:${sec}.${millisec}`;
-  }
-
   // Run on page load to retrieve available levels from firestore 
   useEffect(() => {
     const retrieveData = async () => {
@@ -43,7 +35,7 @@ export const DataProvider = ({ children }) => {
       session, setSession, levels,
       timerActive, setTimerActive,
       time, setTime,
-      seconds, setSeconds, formatTimer,
+      seconds, setSeconds,
     }}>
       {children}
     </GameContext.Provider>

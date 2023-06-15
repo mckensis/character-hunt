@@ -3,6 +3,7 @@ import GameContext from "../context/GameContext";
 import { useForm } from "react-hook-form";
 import { checkInputForProfanity } from "../helpers/checkInputForProfanity";
 import { handleSetFirestoreUserData } from "../handles/handleSetFirestoreData";
+import { formatTime } from "../helpers/formatTime";
 
 const Form = () => {
   
@@ -11,7 +12,6 @@ const Form = () => {
     setSession,
     time,
     setTime,
-    formatTimer,
   } = useContext(GameContext);
 
   const {
@@ -38,9 +38,9 @@ const Form = () => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <h2>Well Done!</h2>
-      <p>Your time is <span>{formatTimer(time)}</span></p>
-      <p>time unformatted {time}</p>
-      <label htmlFor="name">Enter your name below:</label>
+      <h3>Your time is <span>{formatTime(time)}</span></h3>
+      <p>Enter your name below & submit your score to the leaderboards!</p>
+      <label htmlFor="name">Name:</label>
       <input 
         type="text"
         id="name"
@@ -56,9 +56,7 @@ const Form = () => {
       {errors.user?.type === "maxLength" && <p role="alert">Maximum length is 20 characters.</p>}
       {errors.user?.type === "profanity" && <p role="alert">Please remove the profanity.</p>}
       
-      <p>Click the button below to submit your score & view the leaderboards!</p>
-
-      <button>Submit</button>
+      <button>Submit Score</button>
     </form>
   )
 }
