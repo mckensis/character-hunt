@@ -11,12 +11,14 @@ const Header = () => {
   } = useContext(GameContext);
 
   const handleQuitGame = () => {
+    // TO-DO: Delete data from firestore for incomplete session
+
     const sessionCopy = { ...session };
     sessionCopy.game.characters.forEach(character => {
       character.found = false;
     });
     setSeconds(0);
-    setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home" });
+    setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home", leaderboard: null });
   }
 
   return (
@@ -31,7 +33,7 @@ const Header = () => {
       }
       
       {session.page !== "Game" &&
-        <h1>Character Hunt</h1>
+        <h1 className="heading">(&nbsp;&nbsp;&nbsp;Character Hunt&nbsp;&nbsp;&nbsp;)</h1>
       }
 
     </header>
@@ -39,7 +41,6 @@ const Header = () => {
 }
 
 const CharacterList = () => {
-  
   const {
     session,
   } = useContext(GameContext);

@@ -1,6 +1,29 @@
+@font-face {
+  font-family: ArcadeIn;
+  src: url("./fonts/8-BitArcade/8-bit_arcade_in-webfont.woff2") format("woff2"),
+    url("./fonts/8-BitArcade/8-bit_arcade_in-webfont.woff") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: ArcadeOut;
+  src: url("./fonts/8-BitArcade/8-bit_arcade_out-webfont.woff2") format("woff2"),
+    url("./fonts/8-BitArcade/8-bit_arcade_out-webfont.woff") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Test;
+  src: url("./fonts/shoottokill.woff2") format("woff2"),
+    url("./fonts/shoottokill.woff") format("woff");
+  font-display: swap;
+}
+
 :root {
   --dark: hsl(72, 5%, 21%);
   --light: #DCE1E9;
+  --primary: orange;
+  --secondary: blue;
 }
 
 * {
@@ -13,7 +36,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--dark);
+  background: radial-gradient(rgba(0, 0, 0, 0.75), rgba(10, 10, 10, 1)), url("./images/background.jpg");
+  background-repeat: repeat;
+  background-position: top;
   color: var(--light);
   width: fit-content;
   font-family: sans-serif;
@@ -22,20 +47,31 @@
 header {
   z-index: 2;
   position: sticky;
-  padding: 0.5rem;
   top: 0;
   left: 0;
   width: 100vw;
   display: flex;
-  height: 4rem;
   align-items: center;
   gap: 1rem;
-  background-color: hsla(72, 5%, 21%, 0.75);
 }
 
 h1 {
   flex-grow: 1;
+  padding: 0.5rem 0;
   text-align: center;
+  font-size: 2rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.heading {
+  letter-spacing: 1px;
+  font-family: Test;
+  background-color: #ee9617;
+  background: linear-gradient(315deg, #ee9617 0%, #fe5858 74%);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 header .game-info {
@@ -44,6 +80,8 @@ header .game-info {
   justify-content: space-around;
   gap: 1rem;
   align-items: center;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.45));
+  padding: 0.5rem;
 }
 
 ul.characters {
@@ -90,7 +128,8 @@ button {
   border: none;
   border-radius: 1rem;
   color: var(--light);
-  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+  background-color: #ee9617;
+  background-image: linear-gradient(315deg, #ee9617 0%, #fe5858 74%);
   box-shadow: 1px 1px 5px black;
 }
 
@@ -117,27 +156,42 @@ header button {
 ul.levels {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
   gap: 2rem;
+  padding: 1rem;
   justify-content: center;
 }
 
 .level-card {
   display: flex;
+  flex: 1 1 200px;
   flex-direction: column;
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
-  padding: 1rem;
+  /* width: 500px; */
+  max-width: 200px;
+  max-height: 300px;
+  flex-basis: 30%;
+  object-fit: contain;
+  border: 3px dotted transparent;
   justify-content: center;
   align-items: center;
   position: relative;
   border-radius: 1rem;
+  user-select: none;
+  transition: border 0.1s linear;
+}
+
+.level-card.active {
+  border-style: solid;
+  border-color: orange;
+  transition: border 0.1s linear;
 }
 
 .level-card img {
   border-radius: 1rem;
   width: 100%;
   height: 100%;
+  max-height: 200px;
   object-fit: cover;
   object-position: bottom;
   pointer-events: none;
@@ -145,16 +199,29 @@ ul.levels {
 
 .level-card .info {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
   pointer-events: none;
   bottom: 0;
   width: 100%;
-  height: 20%;
+  gap: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.75rem;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  background-color: rgba(200,200,200,0.25);
+  background-color: rgba(10,10,10,0.75);
+  transition: background-color 0.1s linear;
+}
+
+.level-card.active .info {
+  transition: background-color 0.1s linear;
+  background-color: rgba(0,0,0,0.95);
+}
+
+.level-card .info .icon {
+  max-height: 25px;
 }
 
 .level-card .overlay {
@@ -163,7 +230,7 @@ ul.levels {
   border-radius: 1rem;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.1);
 }
 
 .game-popup {
@@ -192,7 +259,7 @@ ul.levels {
 }
 
 .game-popup li img {
-  max-width: 50px;
+  height: 50px;
   aspect-ratio: 1;
   object-fit: contain;
 }
@@ -363,6 +430,11 @@ tr {
   border: 1px solid orange;
 }
 
+tr.highlight {
+  font-weight: 800;
+  color: orange;
+}
+
 td {
   padding: 0.25rem;
 }
@@ -411,15 +483,23 @@ td:nth-of-type(3) {
     cursor: url("./images/crosshair.svg") 25 25, auto;
   }
 
+  .level-card:hover:not(.level-card.active) {
+    border-style: dotted;
+    border-color: rgba(255,165,0, 0.85);
+    transition: border 0.1s linear; 
+  }
+
   .level-card:hover .overlay {
     background-color: rgba(0,0,0,0.1);
   }
+  
   .level-card:hover .info {
-    background-color: rgba(0,0,0,0.75);
+    background-color: rgba(0,0,0,0.95);
   }
 
   .game-popup li:hover:not(li.found) {
     background-color: rgba(10,10,10,0.75);
     color: orange;
   }
+
 }

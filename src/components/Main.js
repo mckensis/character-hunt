@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import Game from "./Game";
-import GameSelect from "./GameSelect";
 import Home from "./Home";
 import Leaderboard from "./Leaderboard";
 import GameContext from "../context/GameContext";
@@ -14,7 +13,6 @@ const Main = () => {
 
       {session?.gameOver && <>
         {session?.page === "Home" && <Home />}
-        {session?.page === "Select" && <GameSelect />}
         {session?.page === "Leaderboard" && <Leaderboard />}
       </>}
 

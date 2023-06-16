@@ -24,19 +24,18 @@ const Leaderboard = () => {
 
       const data = await handleGetLeaderboardData(id);
       if (data) setLoading(false);
-
       setLeaderboard(data);
-    
+      setSession({ ...session, leaderboard: id });
+
     } catch (err) {
       console.log(err.message);
     }
-
   }
 
   return (
     <section className="leaderboard">      
       <section className="buttons">
-        <button onClick={() => setSession({ ...session, page: "Home" })}>Back to Home</button>
+        <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Home</button>
       </section>
       <h3>Select a level to view the leaderboard:</h3>
 
@@ -44,7 +43,6 @@ const Leaderboard = () => {
         {levels.map(level => <LevelCard key={level.id} level={level} />)}
       </ul>
 
-      
       {leaderboard &&
       <>
       <h3>Leaderboard Scores</h3>
@@ -65,7 +63,7 @@ const Leaderboard = () => {
           </tr>
         }
         {!loading && leaderboard?.map(data => (
-          <tr key={data.id}>
+          <tr key={data.id} className={data.id === session.firestoreId ? "highlight" : null}>
             <td>{leaderboard.indexOf(data) + 1}</td>
             <td>{data.user}</td>
             <td>{formatTime(data.score)}</td>

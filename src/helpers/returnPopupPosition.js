@@ -38,7 +38,7 @@ export const returnPopupPosition = (coordinates) => {
   // Avoid positioning the popup where the page would overflow
 export const returnTargetPosition = (coordinates) => {
   const left = coordinates.x - window.scrollX - 24;
-  const top = coordinates.y - window.scrollY + 40;
+  const top = coordinates.y - window.scrollY + 42;
 
   const style = {
     top: `${top}px`,
