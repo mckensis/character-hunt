@@ -7,11 +7,13 @@ export const handleGetFirestoreLevelData = async () => {
     // Get all levels data from firestore and push into the levels array
     const levels = [];
     const ref = collection(firestore, "levels");
-    const response = await getDocs(ref);
+    const q = query(ref, orderBy("id", "asc"));
+    const response = await getDocs(q);
     
-    response.docs.forEach(doc => {
+    // Push data into the levels array for each document retrieved from firestore
+    for (const doc of response.docs) {
       levels.push({ ...doc.data(), id: doc.id });
-    });
+    }
     
     // Download the images from firebase storage for the levels and characters
     for (const level of levels) {
@@ -20,7 +22,6 @@ export const handleGetFirestoreLevelData = async () => {
       level.url = url;
 
       for (const character of level.characters) {
-        if (!character.image) throw new Error("No character image to look up.")
         const url = await handleDownloadImageFromStorage(character.image);
         character.url = url;
         character.found = false;

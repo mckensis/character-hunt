@@ -13,7 +13,6 @@ const Home = () => {
         <button onClick={() => setSession({ ...session, page: "Leaderboard" })}>Leaderboards</button>
       </section>
 
-      <h3>Select a level to play:</h3>
       <LevelsList />
 
       <h3>How to play:</h3>
@@ -39,7 +38,10 @@ const LevelsList = () => {
 
   // Display a loading message until levels have been retrieved from firestore
   useEffect(() => {
-    if (levels) setLoading(false);
+    if (levels) {
+      console.log("yep");
+    } 
+    setLoading(false);
   }, [levels]);
 
   const handleStartGame = async (id) => {
@@ -57,16 +59,21 @@ const LevelsList = () => {
 
   if (!loading) {
     return (
+      <>
+      <h3>Select a level to play:</h3>
       <ul className="levels" onClick={(e) => handleStartGame(e.target.dataset.id)}>
       {levels?.map(level => (
         <LevelCard key={level.id} level={level} />
         ))}
       </ul>
+      </>
     )
   }
 
   if (loading) {
-    return <p>Loading...</p>
+    return (
+      <h3>Levels are loading...</h3>
+    )
   }
 }
 

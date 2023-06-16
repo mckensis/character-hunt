@@ -119,6 +119,8 @@ main > section:not(main .game) {
   gap: 2rem;
   width: 100%;
   flex-grow: 1;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 button {
@@ -141,6 +143,9 @@ header button {
 .buttons {
   display: flex;
   gap: 1rem;
+  position: sticky;
+  top: 4rem;
+  z-index: 3;
 }
 
 .game {
@@ -254,7 +259,7 @@ ul.levels {
   justify-content: space-between;
   width: 100%;
   gap: 2rem;
-  text-align: end;
+  text-align: left;
   padding: 0.5rem 1rem;
 }
 
@@ -288,18 +293,19 @@ hr {
 
 .found-overlay {
   display: flex;
-  text-align: center;
   background-color: red;
-  padding: 0.25rem;
+  justify-content: center;
+  padding: 0.25rem 0;
   align-items: center;
   position: absolute;
-  right: 1rem;
+  width: 90%;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
   color: var(--light);
   pointer-events: none;
-  letter-spacing: 2px;
-  font-size: 1.1rem;
+  letter-spacing: 3px;
+  font-size: .9rem;
 }
 
 .crosshair {

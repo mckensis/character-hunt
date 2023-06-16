@@ -140,7 +140,7 @@ const Popup = ({ coordinates }) => {
         <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
         {character.title}
         <img src={character.url || null} alt="" className={character.found ? "found-icon" : null}/>
-        {character.found && <div className="found-overlay">Found!</div>}
+        {/* {character.found && <div className="found-overlay">Found!</div>} */}
         </li>
     ))}
 

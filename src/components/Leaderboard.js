@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GameContext from "../context/GameContext";
 import LevelCard from "./LevelCard";
 import { handleGetLeaderboardData } from "../handles/handleGetFirestoreData";
@@ -15,12 +15,10 @@ const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const handleSetActiveLeaderboard = async (event) => {
+  const handleSetActiveLeaderboard = async (id) => {
     try {
-      setLoading(true);
-
-      const { id } = event.target.dataset;
       if (!id) return;
+      setLoading(true);
 
       const data = await handleGetLeaderboardData(id);
       if (data) setLoading(false);
@@ -32,6 +30,16 @@ const Leaderboard = () => {
     }
   }
 
+  // Fetches the up to date leaderboard after submitting a score
+  useEffect(() => {
+    if (session.leaderboard) {
+      setTimeout(() => {
+        handleSetActiveLeaderboard(session.leaderboard);
+      }, 100);
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <section className="leaderboard">      
       <section className="buttons">
@@ -39,8 +47,8 @@ const Leaderboard = () => {
       </section>
       <h3>Select a level to view the leaderboard:</h3>
 
-      <ul className="levels" onClick={(e) => handleSetActiveLeaderboard(e)}>
-        {levels.map(level => <LevelCard key={level.id} level={level} />)}
+      <ul className="levels" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
+        {levels?.map(level => <LevelCard key={level.id} level={level} />)}
       </ul>
 
       {leaderboard &&
