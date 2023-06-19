@@ -4,10 +4,9 @@ import LevelCard from "./LevelCard";
 import { handleGetLeaderboardData } from "../handles/handleGetFirestoreData";
 import { formatTime } from "../helpers/formatTime";
 
-const Leaderboard = () => {
+const Leaderboards = () => {
 
   const {
-    levels,
     session,
     setSession
   } = useContext(GameContext);
@@ -41,18 +40,42 @@ const Leaderboard = () => {
   }, []);
 
   return (
-    <section className="leaderboard">      
-      <section className="buttons">
-        <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Home</button>
-      </section>
+    <section className="leaderboards">
+      <Buttons session={session} setSession={setSession} />
+      <LevelsList handleSetActiveLeaderboard={handleSetActiveLeaderboard} />
+      <Leaderboard leaderboard={leaderboard} loading={loading} session={session} />
+    </section>
+  )
+}
+
+const Buttons = ({ setSession, session }) => {
+  return (
+    <article className="buttons">
+      <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Home</button>
+    </article>
+  )
+}
+
+const LevelsList = ({ handleSetActiveLeaderboard }) => {
+
+  const { 
+    levels
+  } = useContext(GameContext);
+
+  return (
+    <article>
       <h3>Select a level to view the leaderboard:</h3>
-
-      <ul className="levels" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
-        {levels?.map(level => <LevelCard key={level.id} level={level} />)}
+      <ul className="levels leaderboards" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
+        {levels?.map(level => <LevelCard key={level.id} level={level} type="leaderboard" />)}
       </ul>
+    </article>
+  )
+}
 
-      {leaderboard &&
-      <>
+const Leaderboard = ({ leaderboard, loading, session }) => {
+  return (
+    <article className="leaderboard">
+      {leaderboard && <>
       <h3>Leaderboard Scores</h3>
       <table>
         <thead>
@@ -84,9 +107,8 @@ const Leaderboard = () => {
       </table>
       </>
       }
-
-    </section>
+    </article>
   )
 }
 
-export default Leaderboard;
+export default Leaderboards;

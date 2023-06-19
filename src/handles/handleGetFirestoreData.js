@@ -18,13 +18,20 @@ export const handleGetFirestoreLevelData = async () => {
     // Download the images from firebase storage for the levels and characters
     for (const level of levels) {
       if (!level.image) throw new Error("No level image to look up.");
-      const url = await handleDownloadImageFromStorage(level.image);
-      level.url = url;
+      const url = await handleDownloadImageFromStorage(level.thumbnail);
+      level.thumbnail = url;
 
-      for (const character of level.characters) {
-        const url = await handleDownloadImageFromStorage(character.image);
-        character.url = url;
-        character.found = false;
+      if (level.characters) { 
+        for (const character of level.characters) {
+          try {
+            const url = await handleDownloadImageFromStorage(character.image);
+            character.url = url;
+            character.found = false;
+          } catch (err) {
+            console.log(err.message);
+            console.log(`Couldn't find image for character ${character.title}.`)
+          }
+        }
       }
     }
     return levels;

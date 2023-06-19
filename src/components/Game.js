@@ -75,7 +75,7 @@ const Game = () => {
   // Watch for game over criteria
   useEffect(() => {
     // Return if all characters haven't been found yet
-    const allCharactersFound = session.game.characters.every(character => character.found === true);
+    const allCharactersFound = session?.game?.characters?.every(character => character.found === true);
     if (!allCharactersFound) return;
 
     const handleGameOver = () => {
@@ -136,7 +136,7 @@ const Popup = ({ coordinates }) => {
 
   return (
     <ul className="game-popup" data-id="popup" style={returnPopupPosition(coordinates)}>
-    {session.game.characters.map(character => (
+    {session?.game?.characters?.map(character => (
         <li key={character.id} data-id={character.id} className={character.found ? 'found' : null}>
         {character.title}
         <img src={character.url || null} alt="" className={character.found ? "found-icon" : null}/>

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import GameContext from "../context/GameContext";
 
-const LevelCard = ({ level }) => {
+const LevelCard = ({ level, type }) => {
 
   const {
     session,
@@ -12,9 +12,11 @@ const LevelCard = ({ level }) => {
       <div className="overlay"></div>
       <div className="info">
         <p>{level.title}</p>
-        <CharacterList level={level}/>
+        {type === "select" &&
+          <CharacterList level={level}/>
+        }
       </div>
-      <img src={level.url} alt="" />
+      <img src={level.thumbnail} alt="" />
     </li>
   )
 }

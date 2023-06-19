@@ -12,7 +12,6 @@ const Header = () => {
 
   const handleQuitGame = () => {
     // TO-DO: Delete data from firestore for incomplete session
-
     const sessionCopy = { ...session };
     sessionCopy.game.characters.forEach(character => {
       character.found = false;
@@ -22,21 +21,20 @@ const Header = () => {
   }
 
   return (
-    <header>
-      
-      {session.page === "Game" &&
+    <>
+    {session.page === "Game" ?
+      <header className="sticky">
         <section className="game-info">
           <Timer />
           <CharacterList />
           <button onClick={() => handleQuitGame()}>Quit</button>
         </section>
-      }
-      
-      {session.page !== "Game" &&
-        <h1 className="heading">(&nbsp;&nbsp;&nbsp;Character Hunt&nbsp;&nbsp;&nbsp;)</h1>
-      }
-
-    </header>
+      </header>
+    : <header>
+        <h1 className="heading">(Character Hunt)</h1>
+      </header>
+    }
+    </>
   )
 }
 
