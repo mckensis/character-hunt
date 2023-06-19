@@ -164,6 +164,8 @@ section > article.leaderboard {
   margin: 0 1rem;
   background-color: rgba(0,0,0,0.75);
   width: calc(100% - 2rem);
+  flex-grow: 1;
+  justify-content: flex-start;
 }
 
 button {
@@ -485,14 +487,13 @@ table {
 }
 
 thead {
+  border-radius: 1rem;
   position: sticky; 
   top: 0;
   background-color: black;
 }
 
 th {
-  position: sticky;
-  top: 0;
   text-align: left;
   font-size: 1.2rem;
   padding: 0.25rem;
@@ -510,6 +511,14 @@ tr {
   justify-content: space-between;
   border: 1px solid orange;
 }
+
+tbody tr:nth-of-type(odd) {
+  background-color: rgba(20, 20, 20, 0.9);
+}
+/* 
+tbody tr:nth-of-type(even) {
+  background-color: rgba(2, 2, 2, 0.1);
+} */
 
 tr.highlight {
   font-weight: 800;
@@ -588,5 +597,55 @@ td:nth-of-type(3) {
 
   ul.levels {
     flex-direction: column;
+  }
+}
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+
+  @keyframes openPopup {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes openForm {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-50%) scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-50%) scale(1);
+    }
+  }
+
+  @keyframes found {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  .game-popup, .leaderboard {
+    animation-name: openPopup;
+    animation-duration: .25s;    
+  }
+
+  .characters .found-icon {
+    animation-name: found;
+    animation-duration: .75s;
+  }
+
+  .game form {
+    animation-name: openForm;
+    animation-duration: .5s;
   }
 }

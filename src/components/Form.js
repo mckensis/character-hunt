@@ -56,7 +56,7 @@ const Form = () => {
       {errors.user?.type === "maxLength" && <p role="alert">Maximum length is 20 characters.</p>}
       {errors.user?.type === "profanity" && <p role="alert">Please remove the profanity.</p>}
       
-      <button>Submit Score</button>
+      <button>Submit Score to Leaderboard</button>
     </form>
   )
 }

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import GameContext from "../context/GameContext";
 import Timer from "./Timer";
+import { handleDeleteFirestoreTempData } from "../handles/handleSetFirestoreData";
 
 const Header = () => {
 
@@ -11,13 +12,15 @@ const Header = () => {
   } = useContext(GameContext);
 
   const handleQuitGame = () => {
+    document.body.style.overflow = "scroll";
     // TO-DO: Delete data from firestore for incomplete session
     const sessionCopy = { ...session };
     sessionCopy.game.characters.forEach(character => {
       character.found = false;
     });
     setSeconds(0);
-    setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home", leaderboard: null });
+    handleDeleteFirestoreTempData(session.firestoreId);
+    setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home", leaderboard: null, firestoreId: null });
   }
 
   return (

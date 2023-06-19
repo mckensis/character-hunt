@@ -42,7 +42,7 @@ const Leaderboards = () => {
   return (
     <section className="leaderboards">
       <Buttons session={session} setSession={setSession} />
-      <LevelsList handleSetActiveLeaderboard={handleSetActiveLeaderboard} />
+      <LevelsList handleSetActiveLeaderboard={handleSetActiveLeaderboard} loading={loading} />
       <Leaderboard leaderboard={leaderboard} loading={loading} session={session} />
     </section>
   )
@@ -51,7 +51,7 @@ const Leaderboards = () => {
 const Buttons = ({ setSession, session }) => {
   return (
     <article className="buttons">
-      <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Home</button>
+      <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Return to Home</button>
     </article>
   )
 }
@@ -62,14 +62,35 @@ const LevelsList = ({ handleSetActiveLeaderboard }) => {
     levels
   } = useContext(GameContext);
 
-  return (
-    <article>
+  const [loading, setLoading] = useState(false);
+
+  // Display a loading message until levels have been retrieved from firestore
+  useEffect(() => {
+    if (levels) setLoading(false);
+  }, [levels]);
+
+  useEffect(() => {
+    if (!levels) setLoading(true);
+    // eslint-disable-next-line
+  }, []);
+  
+
+  if (loading) {
+    return (
+      <article className="loading">
+        <h3>Levels are loading...</h3>
+      </article>
+    )
+  } else {
+    return (
+      <article>
       <h3>Select a level to view the leaderboard:</h3>
       <ul className="levels leaderboards" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
         {levels?.map(level => <LevelCard key={level.id} level={level} type="leaderboard" />)}
       </ul>
     </article>
   )
+  }
 }
 
 const Leaderboard = ({ leaderboard, loading, session }) => {

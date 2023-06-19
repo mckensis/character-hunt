@@ -20,10 +20,11 @@ const Rules = () => {
     <article className="rules">
       <h3>How to play:</h3>
       <ul className="rules">
-        <li>Each level has three hidden characters to be found.</li>
-        <li>Click to open a popup and select the character you've found.</li>
-        <li>Find all hidden characters within the level to finish.</li>
-        <li>Submit your score to the leaderboard and compare your time with others.</li>
+        <li>Each level has three hidden characters to be found</li>
+        <li>Click anywhere on the game image to open the dropdown menu</li>
+        <li>Select the character you've hunted down from the list</li>
+        <li>Find all hidden characters quickly to finish the level</li>
+        <li>Submit your score to the leaderboard and compare your time with others</li>
       </ul>
     </article>
     )
@@ -38,7 +39,7 @@ const Buttons = () => {
 
   return (
     <article className="buttons">
-      <button onClick={() => setSession({ ...session, page: "Leaderboard" })}>Leaderboards</button>
+      <button onClick={() => setSession({ ...session, page: "Leaderboard" })}>View Leaderboards</button>
     </article>
   )
 }

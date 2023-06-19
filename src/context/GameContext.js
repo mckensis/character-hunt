@@ -6,7 +6,7 @@ const GameContext = createContext({});
 export const DataProvider = ({ children }) => {
 
   const [session, setSession] = useState({
-    page: 'Home',
+    page: "Home",
     gameOver: true,
     game: null,
     firestoreId: null

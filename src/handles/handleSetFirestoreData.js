@@ -1,5 +1,5 @@
 import { firestore } from "../firebase";
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { checkIfTwoTimesAreSimilar } from "../helpers/checkIfTwoTimesAreSimilar";
 import { getDifferenceBetweenTwoTimes } from "../helpers/getDifferenceBetweenTwoTimes";
 
@@ -14,6 +14,17 @@ export const handleSetFirestoreData = async (levelId) => {
   } catch (err) {
     console.log(err.message);
     return err;
+  }
+}
+
+export const handleDeleteFirestoreTempData = async (id) => {
+  try {
+    const ref = doc(firestore, "leaderboards", id);
+    await deleteDoc(ref);
+    return;
+  } catch (err) {
+    console.log(err.message);
+    return err.message;    
   }
 }
 
