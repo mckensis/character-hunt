@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import GameContext from "../context/GameContext";
-import { formatTime } from "../helpers/formatTime";
+import GameContext from "context/GameContext";
+import { formatTime } from "helpers/formatTime";
 
 const Timer = () => {
   
@@ -24,7 +24,7 @@ const Timer = () => {
   }, [timerActive, setTime]);
 
   return (
-    <h2>{formatTime(time)}</h2>
+    <h2 className="timer">{formatTime(time)}</h2>
   )
 }
 

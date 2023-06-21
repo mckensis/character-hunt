@@ -1,40 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import GameContext from "../../context/GameContext";
-import LevelCard from "../LevelCard";
-import { handleSetFirestoreData } from "../../handles/handleSetFirestoreData";
-import { handleDownloadImageFromStorage } from "../../handles/handleGetFirestoreData";
+import GameContext from "context/GameContext";
+import LevelCard from "components/LevelCard";
+import { handleSetFirestoreData } from "handles/handleSetFirestoreData";
+import { handleDownloadImageFromStorage } from "handles/handleGetFirestoreData";
+import { handleResetCharacterData } from "helpers/handleResetCharacterData";
 
 const LevelsList = () => {
   
   const {
     levels,
-    setGame,
-    setGameActive,
-    setPage,
-    setWelcomePopupVisible,
-    setFirestoreId,
+    session,
+    setSession,
+    setTimerActive,
+    setTime,
+    setSeconds
   } = useContext(GameContext);
-
-  const handleSetUpGame = async (id) => {
-    if (!id) return;
-
-    // The ID of the game which was clicked / selected
-    const game = levels.find(level => level.id === id);
-    game?.characters?.forEach(character => {
-      character.found = false;
-    });
-    
-    const url = await handleDownloadImageFromStorage(game.image);
-    game.url = url;
-
-    const newFirestoreId = await handleSetFirestoreData(id);
-    
-    setGame(game);
-    setPage("Game");
-    setGameActive(true);
-    setWelcomePopupVisible(true);
-    setFirestoreId(newFirestoreId);
-  }
 
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +27,22 @@ const LevelsList = () => {
     if (!levels) setLoading(true);
     // eslint-disable-next-line
   }, []);
+
+  const handleSetUpGame = async (id) => {
+    if (!id) return;
+
+    // The ID of the game which was clicked / selected
+    const game = levels.find(level => level.id === id);
+    handleResetCharacterData(game.characters);
+    
+    const url = await handleDownloadImageFromStorage(game.image);
+    game.url = url;
+    setTimerActive(false);
+    setTime(0);
+    setSeconds(0);
+    const firestoreId = await handleSetFirestoreData(id);
+    setSession({ ...session, gameOver: false, page: 'Game', game, firestoreId, leaderboard: game.id });
+  }
 
   if (!loading) {
     return (
@@ -63,7 +59,7 @@ const LevelsList = () => {
 
   if (loading) {
     return (
-      <article>
+      <article className="loading">
         <h3>Levels are loading...</h3>
       </article>
     )

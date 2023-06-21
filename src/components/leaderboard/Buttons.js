@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import GameContext from "../../context/GameContext";
+import GameContext from "context/GameContext";
 
 const Buttons = () => {
-
+  
   const {
-    setPage,
+    session,
+    setSession,
   } = useContext(GameContext);
-
+  
   return (
-    <article className="buttons">
-      <button onClick={() => setPage("Home")}>Return to Home</button>
-    </article>
+    <section className="buttons">
+      <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Return to Home</button>
+    </section>
   )
 }
 

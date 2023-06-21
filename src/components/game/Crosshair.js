@@ -1,4 +1,4 @@
-import { returnTargetPosition } from "../../helpers/returnPopupPosition";
+import { returnTargetPosition } from "helpers/returnPopupPosition";
 
 const Crosshair = ({ visible, coordinates }) => {
   

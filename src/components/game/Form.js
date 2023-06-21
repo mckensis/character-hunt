@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import GameContext from "../../context/GameContext";
 import { useForm } from "react-hook-form";
-import { checkInputForProfanity } from "../../helpers/checkInputForProfanity";
-import { handleSetFirestoreUserData } from "../../handles/handleSetFirestoreData";
-import { formatTime } from "../../helpers/formatTime";
-import { handleUnlockScroll } from "../../helpers/handleUnlockScroll";
+import GameContext from "context/GameContext";
+import { checkInputForProfanity } from "helpers/checkInputForProfanity";
+import { handleSetFirestoreUserData } from "handles/handleSetFirestoreData";
+import { formatTime } from "helpers/formatTime";
+import { handleUnlockScroll } from "helpers/handleUnlockScroll";
+import { handleResetCharacterData } from "helpers/handleResetCharacterData";
 
 const Form = ({ gameOver }) => {
   
@@ -23,6 +24,12 @@ const Form = ({ gameOver }) => {
   } = useForm();
 
   if (!gameOver) return;
+
+  const handleUpdateSessionData = () => {
+    const sessionCopy = { ...session, gameOver: true, page: "Leaderboard" };
+    handleResetCharacterData(sessionCopy.game.characters);
+    setSession(sessionCopy);
+  }
   
   const handleSubmitForm = async (data) => {
     const { user } = data;
@@ -32,10 +39,10 @@ const Form = ({ gameOver }) => {
       return;
     }
 
-    handleUnlockScroll();
     await handleSetFirestoreUserData(session.firestoreId, user, time);
-    setSession({ ...session, gameOver: true, page: "Leaderboard"})
     setTime(0);
+    handleUnlockScroll();
+    handleUpdateSessionData();
   }
 
   return (
@@ -45,11 +52,11 @@ const Form = ({ gameOver }) => {
       <p>Enter your name below & submit your score to the leaderboards!</p>
       <label htmlFor="name">Name:</label>
       <input 
+        autoFocus
         type="text"
         id="name"
         name="user"
-        placeholder={"Enter your name"}
-        autoFocus
+        placeholder="Enter your name"
         maxLength={20}
         autoComplete="off"
         { ...register("user", { required: true, maxLength: 20 }) }

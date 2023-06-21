@@ -1,6 +1,6 @@
 const GameImage = ({ image }) => {
   return (
-    <img src={image} alt=""/>
+    <img src={image} alt="" className="board" />
   )
 }
 

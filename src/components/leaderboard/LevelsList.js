@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import GameContext from "../../context/GameContext";
-import LevelCard from "../LevelCard";
+import GameContext from "context/GameContext";
+import LevelCard from "components/LevelCard";
 
-const LevelsList = () => {
+const LevelsList = ({ handleSetActiveLeaderboard }) => {
 
   const { 
-    levels,
-    handleSetActiveLeaderboard,
+    levels
   } = useContext(GameContext);
 
   const [loading, setLoading] = useState(false);
@@ -29,13 +28,13 @@ const LevelsList = () => {
     )
   } else {
     return (
-      <article>
-      <h3>Select a level to view the leaderboard:</h3>
-      <ul className="levels leaderboards" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
-        {levels?.map(level => <LevelCard key={level.id} level={level} type="leaderboard" />)}
-      </ul>
-    </article>
-  )
+      <article className="default">
+        <h3>Select a level to view the leaderboard:</h3>
+        <ul className="levels leaderboards" onClick={(e) => handleSetActiveLeaderboard(e.target.dataset.id)}>
+          {levels?.map(level => <LevelCard key={level.id} level={level} type="leaderboard" />)}
+        </ul>
+      </article>
+    )
   }
 }
 

@@ -1,29 +1,18 @@
 import { useContext } from "react";
-import GameContext from "../../context/GameContext";
-import { handleUnlockScroll } from "../../helpers/handleUnlockScroll";
+import GameContext from "context/GameContext";
 
-const WelcomePopup = () => {
+const WelcomePopup = ({ visible, handleStartGame }) => {
   
   const {
-    game,
-    setTimerActive,
-    setWelcomePopupVisible,
-    welcomePopupVisible,
+    session,
   } = useContext(GameContext);
 
-  if (!welcomePopupVisible) return;
-
-  const handleStartGame = (e) => {
-    e.stopPropagation();
-    setTimerActive(true);
-    setWelcomePopupVisible(false);
-    handleUnlockScroll();
-  }
+  if (!visible) return;
 
   return (
   <section className="starting-info">
-    <article className="special">
-      <h3>{game.title}</h3>
+    <article className="not-transparent">
+      <h3>{session.game.title}</h3>
   
       <ul className="rules">
         <li>Find all hidden characters to complete the level</li>
@@ -34,7 +23,7 @@ const WelcomePopup = () => {
     
       <h3>Find these characters</h3>
       <ul>
-        {game.characters.map((character => (
+        {session.game.characters.map((character => (
           <li className="details" key={character.id}>
             <p>{character.title}</p>
             <img src={character.url} alt="" />

@@ -1,7 +1,9 @@
 import { useContext } from "react";
-import GameContext from "../context/GameContext";
-import Timer from "./Timer";
-import { handleDeleteFirestoreTempData } from "../handles/handleSetFirestoreData";
+import GameContext from "context/GameContext";
+import { handleDeleteFirestoreTempData } from "handles/handleSetFirestoreData";
+import { handleUnlockScroll } from "helpers/handleUnlockScroll";
+import CharacterList from "components/CharacterList";
+import Timer from "components/Timer";
 
 const Header = () => {
 
@@ -12,7 +14,7 @@ const Header = () => {
   } = useContext(GameContext);
 
   const handleQuitGame = () => {
-    document.body.style.overflow = "scroll";
+    handleUnlockScroll();
     // TO-DO: Delete data from firestore for incomplete session
     const sessionCopy = { ...session };
     sessionCopy.game.characters.forEach(character => {
@@ -23,38 +25,23 @@ const Header = () => {
     setSession({ ...sessionCopy, game: null, gameOver: true, page: "Home", leaderboard: null, firestoreId: null });
   }
 
-  return (
-    <>
-    {session.page === "Game" ?
+  if (session.page === "Game") {
+    return (
       <header className="sticky">
-        <section className="game-info">
+        <section className="header-info">
           <Timer />
-          <CharacterList />
-          <button onClick={() => handleQuitGame()}>Quit</button>
+          <CharacterList component="header" />
+          <button onClick={() => handleQuitGame()}>Quit Game</button>
         </section>
       </header>
-    : <header>
+    )
+  } else {
+    return (
+      <header>
         <h1 className="heading">(Character Hunt)</h1>
       </header>
-    }
-    </>
-  )
-}
-
-const CharacterList = () => {
-  const {
-    session,
-  } = useContext(GameContext);
-
-  return (
-    <ul className="characters">            
-      {session?.game?.characters?.map(character => (
-        <li key={character.id} className={character.found ? "found-icon" : null} title={character.title}>
-          <img src={character.url || null} alt=""/>
-        </li>
-      ))}
-    </ul>
-  )
+    )
+  }
 }
 
 export default Header;

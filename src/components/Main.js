@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import Game from "./Game";
-import Home from "./Home";
-import Leaderboards from "./Leaderboards";
-import GameContext from "../context/GameContext";
+import Game from "components/game/Game";
+import Home from "components/home/Home";
+import Leaderboards from "components/leaderboard/Leaderboards";
+import GameContext from "context/GameContext";
 
 const Main = () => {
 
