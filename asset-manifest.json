@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/character-hunt/static/css/main.346d886c.css",
+    "main.js": "/character-hunt/static/js/main.204f0c3b.js",
+    "static/media/background.jpg": "/character-hunt/static/media/background.94c23bcab1b611c01b01.jpg",
+    "static/media/shoottokill.woff": "/character-hunt/static/media/shoottokill.3a35f3e1a134d0a872c6.woff",
+    "static/media/shoottokill.woff2": "/character-hunt/static/media/shoottokill.6c37fe98b32c59de55c0.woff2",
+    "static/media/8-bit_arcade_out-webfont.woff": "/character-hunt/static/media/8-bit_arcade_out-webfont.15909989e6c5ec41dfce.woff",
+    "static/media/8-bit_arcade_in-webfont.woff": "/character-hunt/static/media/8-bit_arcade_in-webfont.a21585018a5ae607daa9.woff",
+    "static/media/8-bit_arcade_out-webfont.woff2": "/character-hunt/static/media/8-bit_arcade_out-webfont.6953849e4eec0bbe9251.woff2",
+    "static/media/8-bit_arcade_in-webfont.woff2": "/character-hunt/static/media/8-bit_arcade_in-webfont.07a6236e5ac446ff33ee.woff2",
+    "index.html": "/character-hunt/index.html",
+    "static/media/crosshair.svg": "/character-hunt/static/media/crosshair.b9b924b49f5be095e5b3.svg",
+    "main.346d886c.css.map": "/character-hunt/static/css/main.346d886c.css.map",
+    "main.204f0c3b.js.map": "/character-hunt/static/js/main.204f0c3b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.346d886c.css",
+    "static/js/main.204f0c3b.js"
+  ]
+}
