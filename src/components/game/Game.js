@@ -4,18 +4,15 @@ import { handleSetFirestoreFinishData, handleSetFirestoreStartData } from "handl
 import { compareCoordinates } from "helpers/compareCoordinates";
 import { handleLockScroll } from "helpers/handleLockScroll";
 import { handleUnlockScroll } from "helpers/handleUnlockScroll";
-import { scrollGame } from "helpers/scrollGame";
+import ScrollButtons from "components/game/ScrollButtons";
 import WelcomePopup from "components/game/WelcomePopup";
 import ImageCredit from "components/game/ImageCredit";
-import GameImage from "components/game/GameImage";
+import ZoomButtons from "components/game/ZoomButtons";
 import Crosshair from "components/game/Crosshair";
+import GameImage from "components/game/GameImage";
 import Popup from "components/game/GamePopup";
 import Flash from "components/game/Flash";
 import Form from "components/game/Form";
-import { AiOutlineZoomIn } from "react-icons/ai";
-import { AiOutlineZoomOut } from "react-icons/ai";
-import { MdOutlineZoomOutMap } from "react-icons/md";
-
 
 const Game = () => {
 
@@ -83,7 +80,13 @@ const Game = () => {
   const handleClick = (e) => {
     if (gameOver) return;
     if (welcomePopupVisible) return;
-    if (!e.target.className) return;
+
+    if (!e.target.className
+      || e.target.className === "game-nav-buttons"
+      || e.target.className === "pan-buttons") {
+        handleClosePopup();
+        return;
+      } 
     
     // console.log("X: ", e.clientX - e.currentTarget.getBoundingClientRect().left, "Y: ", e.clientY - e.currentTarget.getBoundingClientRect().top);
 
@@ -140,81 +143,20 @@ const Game = () => {
       <Form gameOver={gameOver} />
       <ImageCredit />
       <Flash visible={guessResultVisible} found={found} />
-      <NavButtons visible={welcomePopupVisible} />
+      <NavButtons visible={welcomePopupVisible} popupOpen={popupOpen} />
     </section>
   )
 }
 
-const NavButtons = ({ visible }) => {
+const NavButtons = ({ visible, popupOpen }) => {
 
   if (visible) return;
 
   return (
     <div className="game-nav-buttons">
-      <ScrollButtons />
-
-      <div className="zoom-buttons">
-        <button><AiOutlineZoomIn /></button>
-        <button><MdOutlineZoomOutMap /></button>
-        <button><AiOutlineZoomOut /></button>
-      </div>
+      <ScrollButtons popupOpen={popupOpen} />
+      {visible && <ZoomButtons />}
     </div>
-  )
-}
-
-const ScrollButtons = () => {
-  
-  const [directionToScroll, setDirectionToScroll] = useState(null);
-
-  const handleSetScrollDirection = (direction, e) => {
-    e.stopPropagation();
-    setDirectionToScroll(direction);
-    return;
-  }
-
-  useEffect(() => {
-    let interval;
-
-    if (directionToScroll) {
-      interval = setInterval(() => {
-        scrollGame(directionToScroll);
-      }, 10);
-    
-    } else if (!directionToScroll) {
-      clearInterval(interval);
-    }
-
-    return () => clearInterval(interval);
-  
-  }, [directionToScroll]);
-
-  return (
-    <div className="pan-buttons">
-    <button
-      onMouseDown={(e) => handleSetScrollDirection("up", e)}
-      onMouseUp={(e) => handleSetScrollDirection(null, e)}
-    >
-      &#708;
-    </button>
-    <button
-      onMouseDown={(e) => handleSetScrollDirection("right", e)}
-      onMouseUp={(e) => handleSetScrollDirection(null, e)}
-    >
-      &#707;
-    </button>
-    <button
-      onMouseDown={(e) => handleSetScrollDirection("down", e)}
-      onMouseUp={(e) => handleSetScrollDirection(null, e)}
-    >
-      &#709;
-    </button>
-    <button
-      onMouseDown={(e) => handleSetScrollDirection("left", e)}
-      onMouseUp={(e) => handleSetScrollDirection(null, e)}
-    >
-      &#706;
-    </button>
-  </div>
   )
 }
 
