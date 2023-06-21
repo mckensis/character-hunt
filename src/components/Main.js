@@ -10,16 +10,9 @@ const Main = () => {
 
   return (
     <main>
-
-      {session?.gameOver && <>
-        {session?.page === "Home" && <Home />}
-        {session?.page === "Leaderboard" && <Leaderboards />}
-      </>}
-
-      {!session?.gameOver && <>
-        {session?.page === "Game" && <Game />}
-      </>}
-
+      {session?.page === "Home" && <Home />}
+      {session?.page === "Leaderboard" && <Leaderboards />}
+      {session?.page === "Game" && <Game />}
     </main>
   )
 }

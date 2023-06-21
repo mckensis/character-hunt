@@ -7,9 +7,10 @@ export const DataProvider = ({ children }) => {
 
   const [session, setSession] = useState({
     page: "Home",
-    gameOver: true,
     game: null,
-    firestoreId: null
+    gameOver: true,
+    leaderboard: null,
+    firestoreId: null,
   });
 
   const [levels, setLevels] = useState(null);

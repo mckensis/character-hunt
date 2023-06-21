@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import GameContext from "../context/GameContext";
-import { returnPopupPosition, returnTargetPosition } from "../helpers/returnPopupPosition";
+import { returnPopupPosition } from "../helpers/returnPopupPosition";
 import { compareCoordinates } from "../helpers/compareCoordinates";
 import { handleSetFirestoreFinishData, handleSetFirestoreStartData } from "../handles/handleSetFirestoreData";
-import Form from "./Form";
+import { handleLockScroll } from "../helpers/handleLockScroll";
+import { handleUnlockScroll } from "../helpers/handleUnlockScroll";
+import ImageCredit from "./game/ImageCredit";
+import GameImage from "./game/GameImage";
+import Crosshair from "./game/Crosshair";
+import Form from "./game/Form";
 
 const Game = () => {
 
@@ -36,13 +41,13 @@ const Game = () => {
   }
 
   const handleOpenPopup = () => {
-    document.body.style.overflow = "hidden";
+    handleLockScroll();
     setPopupOpen(true);
     setCrosshairVisible(true);
   }
 
   const handleClosePopup = () => {
-    document.body.style.overflow = "scroll";
+    handleUnlockScroll();
     setPopupOpen(false);
     setCrosshairVisible(false);
     setCoordinates({ x: null, y: null });
@@ -82,7 +87,7 @@ const Game = () => {
       setGameOver(true);
       setTimerActive(false);
       handleSetFirestoreFinishData(session.firestoreId);
-      document.body.style.overflow = "hidden";
+      handleLockScroll();
     }
     
     handleGameOver();
@@ -105,27 +110,12 @@ const Game = () => {
 
   return (
     <section className="game" onClick={handleClick}>
-      <img src={session.game.url} alt=""/>
-
-      {crosshairVisible && 
-        <div className="crosshair" style={returnTargetPosition(coordinates)}></div>
-      }
-
+      <GameImage image={session.game.url} />
+      <Crosshair visible={crosshairVisible} coordinates={coordinates} />
       <ImageCredit />
       {popupOpen && <Popup coordinates={coordinates} />}        
-      {gameOver && <Form />}
+      <Form gameOver={gameOver} />
     </section>
-  )
-}
-
-const ImageCredit = () => {
-  return (
-    <p className="credits">
-      Image Credit:
-      <a href="https://www.instagram.com/chekavo/">
-        Egor Klyuchnyk
-      </a>
-    </p>
   )
 }
 

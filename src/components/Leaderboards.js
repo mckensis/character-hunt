@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import GameContext from "../context/GameContext";
-import LevelCard from "./LevelCard";
 import { handleGetLeaderboardData } from "../handles/handleGetFirestoreData";
 import { formatTime } from "../helpers/formatTime";
+import LevelCard from "./LevelCard";
 
 const Leaderboards = () => {
 
@@ -31,24 +31,26 @@ const Leaderboards = () => {
 
   // Fetches the up to date leaderboard after submitting a score
   useEffect(() => {
-    if (session.leaderboard) {
-      setTimeout(() => {
-        handleSetActiveLeaderboard(session.leaderboard);
-      }, 100);
-    }
+    handleSetActiveLeaderboard(session?.leaderboard);
     // eslint-disable-next-line
   }, []);
 
   return (
     <section className="leaderboards">
-      <Buttons session={session} setSession={setSession} />
+      <Buttons />
       <LevelsList handleSetActiveLeaderboard={handleSetActiveLeaderboard} loading={loading} />
       <Leaderboard leaderboard={leaderboard} loading={loading} session={session} />
     </section>
   )
 }
 
-const Buttons = ({ setSession, session }) => {
+const Buttons = () => {
+  
+  const {
+    session,
+    setSession,
+  } = useContext(GameContext);
+
   return (
     <article className="buttons">
       <button onClick={() => setSession({ ...session, page: "Home", leaderboard: null })}>Return to Home</button>
@@ -94,9 +96,10 @@ const LevelsList = ({ handleSetActiveLeaderboard }) => {
 }
 
 const Leaderboard = ({ leaderboard, loading, session }) => {
+  if (!leaderboard) return;
+
   return (
     <article className="leaderboard">
-      {leaderboard && <>
       <h3>Leaderboard Scores</h3>
       <table>
         <thead>
@@ -106,30 +109,47 @@ const Leaderboard = ({ leaderboard, loading, session }) => {
           </tr>
         </thead>
         <tbody>
-
-        {loading &&
-          <tr>
-            <td className="loading">
-              Loading high scores...
-            </td>
-          </tr>
-        }
-        {!loading && leaderboard?.map(data => (
-          <tr key={data.id} className={data.id === session.firestoreId ? "highlight" : null}>
-            <td>{leaderboard.indexOf(data) + 1}</td>
-            <td>{data.user}</td>
-            <td>{formatTime(data.score)}</td>
-          </tr>
-          ))
-        }
-
-        {!loading && leaderboard.length === 0 && <tr><td className="empty">No high scores yet - Be the first to add your name!</td></tr>}
+          <LeaderboardBody
+            loading={loading}
+            leaderboard={leaderboard}
+            session={session}
+          />
         </tbody>
       </table>
-      </>
-      }
     </article>
   )
+}
+
+const LeaderboardBody = ({ loading, leaderboard, session }) => {
+  if (loading) {
+    return (
+      <tr>
+        <td className="loading">
+          Loading high scores...
+        </td>
+      </tr>
+    )
+  }
+
+  if (!loading && leaderboard?.length > 0) {
+    return (
+      leaderboard?.map(data => (
+        <tr key={data.id} className={data.id === session.firestoreId ? "highlight" : null}>
+          <td>{leaderboard.indexOf(data) + 1}</td>
+          <td>{data.user}</td>
+          <td>{formatTime(data.score)}</td>
+        </tr>
+      ))
+    )
+  } else {
+    return (
+      <tr>
+        <td className="empty">
+          No high scores yet - Be the first to add your name!
+        </td>
+      </tr>
+    )
+  }
 }
 
 export default Leaderboards;
