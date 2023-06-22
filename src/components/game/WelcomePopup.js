@@ -15,10 +15,10 @@ const WelcomePopup = ({ visible, handleStartGame }) => {
       <h3>{session.game.title}</h3>
   
       <ul className="rules">
-        <li>Find all hidden characters to complete the level</li>
-        <li>Click anywhere in the game to open the character hunt menu</li>
-        <li>Scroll the screen with the mouse / touchpad / touchscreen</li>
-        <li>Submit your score and see how you compare with others</li>
+        <li>Find all hidden characters to finish the level</li>
+        <li>Touch / Click the game to target characters</li>
+        <li>Navigate with the buttons / touchscreen / touchpad</li>
+        <li>Submit your score to the leaderboards</li>
       </ul>
     
       <h3>Find these characters</h3>
@@ -30,6 +30,8 @@ const WelcomePopup = ({ visible, handleStartGame }) => {
           </li>
         )))}
       </ul>
+
+      <p>Start the game to begin the timer and commence your character hunt!</p>
 
       <button onClick={(e) => handleStartGame(e)}>Start Game</button>
     </article>

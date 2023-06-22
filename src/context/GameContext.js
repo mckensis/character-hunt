@@ -14,9 +14,11 @@ export const DataProvider = ({ children }) => {
   });
 
   const [levels, setLevels] = useState(null);
-  const [timerActive, setTimerActive] = useState(false);
   const [time, setTime] = useState(0);
   const [seconds, setSeconds] = useState(0);
+
+  const [timerActive, setTimerActive] = useState(false);
+  const [welcomePopupVisible, setWelcomePopupVisible] = useState(false);
 
   // Run on page load to retrieve available levels from firestore 
   useEffect(() => {
@@ -37,6 +39,7 @@ export const DataProvider = ({ children }) => {
       timerActive, setTimerActive,
       time, setTime,
       seconds, setSeconds,
+      welcomePopupVisible, setWelcomePopupVisible,
     }}>
       {children}
     </GameContext.Provider>

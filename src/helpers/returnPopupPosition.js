@@ -7,21 +7,21 @@ export const returnPopupPosition = (coordinates) => {
   let left;
 
   // Place the popup to the left or right of the mouse click
-  if (coordinates.x < window.scrollX + window.innerWidth - 250) {
-    left = coordinates.x - window.scrollX + 10
+  if (coordinates.x < window.scrollX + window.innerWidth - 200) {
+    left = coordinates.x - window.scrollX + 20
     right = null;
   } else {
     left = null;
-    right = window.innerWidth - coordinates.x + window.scrollX + 8;
+    right = (window.innerWidth - coordinates.x) + window.scrollX + 20;
   }
 
   // Place the popup above or below the mouse click
   if (coordinates.y < window.scrollY + window.innerHeight - 300) {
-    top = coordinates.y - window.scrollY + 75;
+    top = coordinates.y - window.scrollY + 10;
     bottom = null;
   } else {
     top = null;
-    bottom = (window.innerHeight - coordinates.y) + window.scrollY - 57;
+    bottom = (window.innerHeight - coordinates.y) + window.scrollY;
   }
 
   const style = {
@@ -38,7 +38,7 @@ export const returnPopupPosition = (coordinates) => {
   // Avoid positioning the popup where the page would overflow
 export const returnTargetPosition = (coordinates) => {
   const left = coordinates.x - window.scrollX - 24;
-  const top = coordinates.y - window.scrollY + 45;
+  const top = coordinates.y - window.scrollY - 24;
 
   const style = {
     top: `${top}px`,

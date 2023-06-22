@@ -54,14 +54,10 @@ header {
 
 header.sticky {
   z-index: 2;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
-}
-
-header button {
-  padding: .75rem 1rem;
-  font-size: 1rem;
+  width: 100vw;
 }
 
 h1 {
@@ -76,8 +72,11 @@ main {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  align-items: center;
   width: fit-content;
+}
+
+main:not(main:has(.game)) {
+  align-items: center;
   min-width: 100vw;
 }
 
@@ -209,7 +208,7 @@ p[role="alert"] {
   gap: 1rem;
 }
 
-button:not(.game-nav-buttons button) {
+button:not(button.nav, button.quit) {
   padding: 1rem;
   font-size: 1.1rem;
   font-weight: 600;
@@ -221,9 +220,21 @@ button:not(.game-nav-buttons button) {
   box-shadow: var(--box-shadow);
 }
 
+header button {
+  padding: .5rem .5rem;
+  font-size: .9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  color: var(--light);
+  background-color: #ee9617;
+  background-image: linear-gradient(315deg, #ee9617 0%, #fe5858 74%);
+  box-shadow: var(--box-shadow);
+
+}
+
 .heading {
   font-family: Test;
-  letter-spacing: 1px;
   color: transparent;
   background-color: #ee9617;
   background: linear-gradient(315deg, #ee9617 0%, #fe5858 74%);
@@ -249,11 +260,19 @@ button:not(.game-nav-buttons button) {
   position: fixed;
   top: 50%;
   left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   width: 90vw;
+  height: 70vh;
+  max-height: 600px;
   max-width: 500px;
   border-radius: 2rem;
+}
+
+.starting-info > article {
+  display: flex;
+  justify-content: center;
   box-shadow: var(--box-shadow);
-  transform: translateX(-50%) translateY(-50%);
+  width: 100%;
 }
 
 .starting-info > article ul:nth-of-type(2) {
@@ -262,6 +281,11 @@ button:not(.game-nav-buttons button) {
   width: 100%;
   gap: 1rem;
   font-size: 1.4rem;
+}
+
+.starting-info p {
+  text-align: center;
+  font-size: 1rem;
 }
 
 .starting-info li.details {
@@ -398,11 +422,14 @@ ul.levels.leaderboards .level-card img {
 }
 
 .game {
+  flex-grow: 1;
+  width: 100%;
   min-width: max-content;
   position: relative;
 }
 
 img.board {
+  flex-grow: 1;
   min-width: max-content;
   width: 100%;
 }
@@ -414,7 +441,7 @@ img.board {
   top: 5rem;
   left: 50%;
   width: 100%;
-  max-width: 50vw;
+  max-width: 80vw;
   transform: translateX(-50%);
   border: 1px solid var(--dark);
   border-radius: 3rem;
@@ -635,6 +662,12 @@ td:nth-of-type(3) {
   text-align: right;
 }
 
+@media (hover:none) {
+  .game-nav-buttons {
+    display: none;
+  }
+}
+
 @media (hover) {
   * {
     cursor: default;
@@ -721,12 +754,12 @@ td:nth-of-type(3) {
 
   @keyframes openForm {
     0% {
+      transform: translateX(-50%) translateY(-50%) scale(0.1);
       opacity: 0;
-      transform: translateX(-50%) translateY(-50%) scale(0.5);
     }
     100% {
-      opacity: 1;
       transform: translateX(-50%) translateY(-50%) scale(1);
+      opacity: 1;
     }
   }
 

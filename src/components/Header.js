@@ -11,6 +11,7 @@ const Header = () => {
     session,
     setSession,
     setSeconds,
+    welcomePopupVisible,
   } = useContext(GameContext);
 
   const handleQuitGame = () => {
@@ -26,12 +27,13 @@ const Header = () => {
   }
 
   if (session.page === "Game") {
+    if (welcomePopupVisible) return null;
     return (
       <header className="sticky">
         <section className="header-info">
           <Timer />
           <CharacterList component="header" />
-          <button onClick={() => handleQuitGame()}>Quit Game</button>
+          <button className="quit" onClick={() => handleQuitGame()}>Quit Game</button>
         </section>
       </header>
     )

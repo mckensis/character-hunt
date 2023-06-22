@@ -6,7 +6,7 @@ const Flash = ({ visible, found }) => {
   )
 
   return (
-    <div className="flash correct">You found {found}</div>
+    <div className="flash correct">You found {found}!</div>
   )
 }
 

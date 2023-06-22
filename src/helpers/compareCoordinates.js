@@ -1,5 +1,7 @@
 // Returns true if the coordinates are similar
 export const compareCoordinates = (first, second) => {
+  if (!second) return;
+  
   const lowX = second.x - 25;
   const highX = second.x + 25;
   const lowY = second.y - 50;

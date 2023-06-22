@@ -31,24 +31,28 @@ const ScrollButtons = ({ popupOpen }) => {
   return (
     <div className="pan-buttons">
     <button
+      className="nav pan"
       onMouseDown={(e) => handleSetScrollDirection("up", e)}
       onMouseUp={(e) => handleSetScrollDirection(null, e)}
     >
       &#708;
     </button>
-    <button
+    <button 
+      className="nav pan"
       onMouseDown={(e) => handleSetScrollDirection("right", e)}
       onMouseUp={(e) => handleSetScrollDirection(null, e)}
     >
       &#707;
     </button>
     <button
+      className="nav pan"
       onMouseDown={(e) => handleSetScrollDirection("down", e)}
       onMouseUp={(e) => handleSetScrollDirection(null, e)}
     >
       &#709;
     </button>
     <button
+      className="nav pan"
       onMouseDown={(e) => handleSetScrollDirection("left", e)}
       onMouseUp={(e) => handleSetScrollDirection(null, e)}
     >

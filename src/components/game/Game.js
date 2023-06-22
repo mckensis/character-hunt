@@ -20,6 +20,8 @@ const Game = () => {
     session,
     setSession,
     setTimerActive,
+    welcomePopupVisible,
+    setWelcomePopupVisible,
   } = useContext(GameContext);
   
   const [coordinates, setCoordinates] = useState({
@@ -30,7 +32,6 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [crosshairVisible, setCrosshairVisible] = useState(false);
-  const [welcomePopupVisible, setWelcomePopupVisible] = useState(false);
   const [guessResultVisible, setGuessResultVisible] = useState(false);
 
   const [found, setFound] = useState(null);
@@ -81,9 +82,10 @@ const Game = () => {
     if (gameOver) return;
     if (welcomePopupVisible) return;
 
-    if (!e.target.className
-      || e.target.className === "game-nav-buttons"
-      || e.target.className === "pan-buttons") {
+    if (e.target.className === "game-nav-buttons"
+      || e.target.className === "pan-buttons"
+      || e.target.className === "nav pan"
+      || e.target.className === "game-popup") {
         handleClosePopup();
         return;
       } 
