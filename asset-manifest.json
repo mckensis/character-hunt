@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/character-hunt/static/css/main.78d33186.css",
-    "main.js": "/character-hunt/static/js/main.0e73dc59.js",
+    "main.js": "/character-hunt/static/js/main.88ad7a92.js",
     "static/media/background.jpg": "/character-hunt/static/media/background.94c23bcab1b611c01b01.jpg",
     "static/media/shoottokill.woff": "/character-hunt/static/media/shoottokill.3a35f3e1a134d0a872c6.woff",
     "static/media/shoottokill.woff2": "/character-hunt/static/media/shoottokill.6c37fe98b32c59de55c0.woff2",
@@ -12,10 +12,10 @@
     "index.html": "/character-hunt/index.html",
     "static/media/crosshair.svg": "/character-hunt/static/media/crosshair.b9b924b49f5be095e5b3.svg",
     "main.78d33186.css.map": "/character-hunt/static/css/main.78d33186.css.map",
-    "main.0e73dc59.js.map": "/character-hunt/static/js/main.0e73dc59.js.map"
+    "main.88ad7a92.js.map": "/character-hunt/static/js/main.88ad7a92.js.map"
   },
   "entrypoints": [
     "static/css/main.78d33186.css",
-    "static/js/main.0e73dc59.js"
+    "static/js/main.88ad7a92.js"
   ]
 }
