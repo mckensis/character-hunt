@@ -1,14 +1,14 @@
 // Returns true if the coordinates are similar
-export const compareCoordinates = (first, second) => {
-  if (!second) return;
+export const compareCoordinates = (guess, character) => {
+  if (!character) return;
   
-  const lowX = second.x - 25;
-  const highX = second.x + 25;
-  const lowY = second.y - 50;
-  const highY = second.y + 50;
+  const lowX = character.x.start - 10;
+  const highX = character.x.end + 10;
+  const lowY = character.y.start - 10;
+  const highY = character.y.end + 10;
   
   // Compare where was clicked against the stored coordinates of the selected character
-  if ((first.x > lowX && first.x < highX) && (first.y > lowY && first.y < highY)) {
+  if ((guess.x > lowX && guess.x < highX) && (guess.y > lowY && guess.y < highY)) {
     return true;
   } else {
     return false;

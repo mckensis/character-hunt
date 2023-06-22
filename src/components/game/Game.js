@@ -90,7 +90,7 @@ const Game = () => {
         return;
       } 
     
-    // console.log("X: ", e.clientX - e.currentTarget.getBoundingClientRect().left, "Y: ", e.clientY - e.currentTarget.getBoundingClientRect().top);
+    console.log("X: ", e.clientX - e.currentTarget.getBoundingClientRect().left, "Y: ", e.clientY - e.currentTarget.getBoundingClientRect().top);
 
     // If there has already been a click to open the popup
     if (popupOpen) {
