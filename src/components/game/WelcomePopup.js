@@ -5,6 +5,7 @@ const WelcomePopup = ({ visible, handleStartGame }) => {
   
   const {
     session,
+    handleQuitGame,
   } = useContext(GameContext);
 
   if (!visible) return;
@@ -15,10 +16,10 @@ const WelcomePopup = ({ visible, handleStartGame }) => {
       <h3>{session.game.title}</h3>
   
       <ul className="rules">
-        <li>Find all hidden characters to finish the level</li>
-        <li>Touch / Click the game to target characters</li>
-        <li>Navigate with the buttons / touchscreen / touchpad</li>
-        <li>Submit your score to the leaderboards</li>
+        <li>Find all three characters to finish the level</li>
+        <li>Touch or click to target a character</li>
+        <li><strong>Desktop:</strong> Navigate with the on-screen buttons, keyboard arrow keys or touchpad</li>
+        <li><strong>Mobile & Tablet:</strong> Navigate with the touchscreen</li>
       </ul>
     
       <h3>Find these characters</h3>
@@ -33,7 +34,10 @@ const WelcomePopup = ({ visible, handleStartGame }) => {
 
       <p>Start the game to begin the timer and commence your character hunt!</p>
 
-      <button onClick={(e) => handleStartGame(e)}>Start Game</button>
+      <div className="button-container">
+        <button type="button" onClick={() => handleQuitGame()}>Quit Game</button>
+        <button type="button" onClick={(e) => handleStartGame(e)}>Start Game</button>
+      </div>
     </article>
   </section>  
   )
